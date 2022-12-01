@@ -2,7 +2,7 @@ import Sidebar from "./sidebar/Sidebar"
 import Navbar from "./navbar/Navbar"
 import Sample0 from "./contentsbody/Sample0"
 import Sample1 from "./contentsbody/Sample1"
-import Sample2 from "./contentsbody/Sample2"
+import ProjectCrew from "../pages/projectcrew/ProjectCrew"
 import { Routes, Route} from "react-router-dom"
 import { ResponsiveCalendar } from '@nivo/calendar'
 import GanttChartExample from '../pages/GanttChartExample'
@@ -23,7 +23,7 @@ const Home = () => {
                     <div className="w-screen px-2.5 py-2.5">
                         <Routes>
                             <Route path="/" element={<HomeBody />} />
-                            <Route path="/aaa" element={<Sample2 />} />
+                            <Route path="/projectcrew" element={<ProjectCrew />} />
                             <Route path="/bbb" element={<GanttChartExample />} />
                         </Routes>
                     </div>

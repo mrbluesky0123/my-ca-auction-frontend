@@ -34,14 +34,14 @@ const Menu = () => {
                 <AccordionPanel h={9} className="hover:bg-slate-200">
                     <div className="flex flex-row text-sm">
                         <Box flex='1' textAlign='left'>
-                            <Link to="/aaa">프로젝트 구인</Link>
+                            <Link to="/projectcrew">프로젝트 구인</Link>
                         </Box>
                     </div>
                 </AccordionPanel>
                 <AccordionPanel h={9} className="hover:bg-slate-200 align-middle">
                     <div className="flex flex-row text-sm">
                         <Box flex='1' textAlign='left'>    
-                            <Link to="/bbb">프로젝트 구직</Link>
+                            <Link to="/newproject">프로젝트 구직</Link>
                         </Box>
                     </div>
                 </AccordionPanel>
