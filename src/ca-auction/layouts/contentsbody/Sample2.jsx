@@ -1,5 +1,16 @@
 import React,{ useEffect, useState } from "react";
 import Members from "./Members";
+import {
+    Text,
+    Input,
+    Stack,
+    InputGroup,
+    InputLeftElement,
+    
+    InputRightElement,
+    
+} from '@chakra-ui/react'
+import {PhoneIcon,CheckIcon,} from '@chakra-ui/icons'
 
 function ProjectReg(props){
     const [name, setName] = useState("");
@@ -63,41 +74,44 @@ function ProjectReg(props){
     };
 
     return (
-        <>
-            <label>
-                제목 : <input type="text" value={name} onChange={handleChangeName} />
-            </label>
-            <br />
-            <label>
-                내용 : <input type="text" value={content} onChange={handleChangeContent} />
-            </label>
-            <br />
-            <label>
-                기간 : <input type="text" value={term} onChange={handleChangeTerm}/>
-            </label>
-            <br />
-            <label>
-                투입인원 : 
-                <input type="text" value={memberCount} onChange={handleChangeMemberCount} />
-                <select value={role} onChange={handleChangeMembers} >
-                    <option value="PL">PL</option>
-                    <option value="BackEnd">BackEnd</option>
-                </select>  
-                <button onClick={handleClickButton}>추가</button>
-            </label>
-
-            {/* {statement} */}
-            {members.map((m) => {
-                return (
-                <>
-                    <p>{m.role}, {m.count}</p>
-                </>
-                )
-            })}
-            
-            <br />
-            <button type="submit">제출</button>
-        </>
+        <div className="block">            
+            <Text className="text-sm" p={1}>프로젝트명</Text>
+            <Input 
+                width='250px'
+                placeholder='프로젝트명' 
+                size='sm' 
+                onChange={handleChangeName} 
+                value={name}
+                p={1}
+            />
+            <Text className="text-sm" p={1}>내용</Text>
+            <Input 
+                width='250px'
+                placeholder='프로젝트명' 
+                size='sm' 
+                onChange={handleChangeName} 
+                value={name}
+                p={1}
+            />
+            <Text className="text-sm" p={1}>내용</Text>
+            <Input 
+                width='250px'
+                placeholder='프로젝트명' 
+                size='sm' 
+                onChange={handleChangeName} 
+                value={name}
+                p={1}
+            />
+            <Text className="text-sm" p={1}>내용</Text>
+            <Input 
+                width='250px'
+                placeholder='프로젝트명' 
+                size='sm' 
+                onChange={handleChangeName} 
+                value={name}
+                p={1}
+            />
+        </div>
     );
 }
 
