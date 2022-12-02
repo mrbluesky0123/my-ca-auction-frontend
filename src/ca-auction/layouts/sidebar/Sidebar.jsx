@@ -1,14 +1,16 @@
 import Menu from "./Menu";
-import CI from "./CI";
+import Logo from "./Logo";
+import { Divider } from '@chakra-ui/react'
 
 const Sidebar = () => {
     return (
         <div className="h-screen flex flex-col">
             <div className="h-5/6">
-                <Menu/>
+                <Menu />
             </div>
+            <Divider />
             <div className="h-12">
-                <CI/>
+                <Logo />
             </div>
         </div>
     )

@@ -85,7 +85,7 @@ const ProjectCrew = (props) => {
                         <Text className="text-sm font-bold" p={1}>프로젝트명</Text>
                         <Input 
                             width='250px'
-                            placeholder='프로젝트명' 
+                            placeholder='프로젝트 명' 
                             size='sm' 
                             onChange={handleChangeName} 
                             value={name}

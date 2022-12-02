@@ -1,10 +1,16 @@
-import Logo from "./Logo"
+import NavbarLogo from "./NavbarLogo"
+import NavbarInfoMenu from "./NavbarInfoMenu"
 
 const Navbar = () => {
     
     return (
-        <div className="relative left-6">
-            <Logo />
+        <div className="flex flex-row">
+            <div>
+                <NavbarLogo />
+            </div>
+            <div>
+                <NavbarInfoMenu />
+            </div>
         </div>
     )
 }

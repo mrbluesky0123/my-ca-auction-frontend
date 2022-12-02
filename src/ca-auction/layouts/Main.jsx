@@ -12,12 +12,12 @@ const Home = () => {
     
     return (
         <>
-            <div className="text-base w-screen h-screen">
+            <div className="px-56 text-base w-screen h-screen">
                 <div className="flex flex-row px-2 py-2 h-12">
                     <Navbar />
                 </div>
                 <div className="flex flex-row h-screen">
-                    <div className="w-56 px-2.5 py-2.5">
+                    <div className="w-80 px-2.5 py-2.5">
                         <Sidebar/>
                     </div>    
                     <div className="w-screen px-2.5 py-2.5">
