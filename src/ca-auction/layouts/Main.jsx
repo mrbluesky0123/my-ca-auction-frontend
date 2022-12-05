@@ -12,7 +12,7 @@ const Home = () => {
     
     return (
         <>
-            <div className="px-48 text-base w-screen h-screen">
+            <div className="px-56 text-base w-screen h-screen">
                 <div className="flex flex-row px-2 py-2 h-12">
                     <Navbar />
                 </div>

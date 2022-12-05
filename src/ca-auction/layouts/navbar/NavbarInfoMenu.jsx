@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { Box } from '@chakra-ui/react'
+import { Box } from '@mui/material';
 const NavbarInfoMenu = () => {
 
     return (
-        <Box flex='1'>
+        <Box>
             <div className='flex justify-end'>
                 <Link to="/"> My Projects </Link>
                 <p className="px-2"> | </p>

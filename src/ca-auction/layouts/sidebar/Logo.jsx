@@ -1,9 +1,9 @@
-import { Image } from '@chakra-ui/react'
+
 
 const Logo = () => {
     
     return (
-        <div>
+        <div className="flex justify-left">
             <img
                 className='py-2.5'
                 width='100px'
