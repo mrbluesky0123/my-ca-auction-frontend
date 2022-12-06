@@ -2,26 +2,14 @@ import React, { useEffect, useState, forwardRef } from "react";
 import {
     Text,
     Input,
-    Stack,
-    InputGroup,
-    InputLeftElement,
-    Card,
-    InputRightElement,
-    Divider,
-    Box,
-    Textarea,
-    Button,
-    Select,
     Wrap,
     WrapItem,
 } from '@chakra-ui/react';
-//import Calendar from "react-calendar";
-//import 'react-calendar/dist/Calendar.css';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { PhoneIcon, CheckIcon, } from '@chakra-ui/icons';
 import { ko } from "date-fns/esm/locale";
 import { FaCalendarAlt } from 'react-icons/fa';
+import { Typography, Divider, TextField, Button, Box, Card, InputLabel, MenuItem, FormControl, Select } from "@mui/material";
 
 const ProjectCrew = (props) => {
     const [projectName, setProjectName] = useState("");
@@ -35,7 +23,11 @@ const ProjectCrew = (props) => {
     //const [value, onChange] = useState(new Date());
     const [dateRange, setDateRange] = useState([new Date(), new Date()]);
     const [startDate, endDate] = dateRange;
+    const [age, setAge] = React.useState('');
 
+    const handleChange = (event) => {
+        setAge(event.target.value);
+    };
 
     const handleChangeProjectName = (event) => {
         setProjectName(event.target.value);
@@ -87,47 +79,46 @@ const ProjectCrew = (props) => {
         <Button
             className='w-96'
             fontSize={'16px'}
-            leftIcon={<FaCalendarAlt />}
+            startIcon={<FaCalendarAlt />}
             //colorScheme='blue'
-            variant='outline'
+            variant='outlined'
             onClick={onClick}
             //inline='true'
-            ref={ref}>
+            ref={ref}
+            style={{color: "black", marginTop: 10, marginBottom: 10, borderColor: 'black', fontSize: '1rem'}}
+        >
             {value}
         </Button>
     ));
 
     return (
         <div>
-            <Card className='w' bg={"rgb(255, 254, 247)"} p={5} m={3}>
+            <Card 
+                elevation={2}
+                style={{padding: 20, margin: 10, backgroundColor: 'rgb(255, 254, 247)'}} 
+            >
                 <div className="block">
-                    <Text className="text-2xl font-bold">
+                    <div className="text-2xl font-bold">
                         프로젝트 구인
-                    </Text>
-                    <Divider />
-                    <Box p={3}>
-                        <Text className="text-sm font-bold " p={1}>프로젝트명</Text>
-                        <Input
-                            //width='250px'
-                            placeholder='프로젝트 명'
-                            size='sm'
-                            onChange={handleChangeProjectName}
-                            value={projectName}
-                            bg={'white'}
-                            p={1}
+                    </div>
+                    <div className='my-2.5'>
+                        <Divider />
+                    </div>
+                    <Box p={1}>
+                        <TextField
+                            required
+                            label="프로젝트명"
+                            variant="standard"
+                            style={{ marginTop: 10, width: '40%' }}
                         />
-                        <Text className="text-sm font-bold" p={1}>내용</Text>
-                        <Textarea
-                            //width='250px'
-                            height='250px'
-                            placeholder='내용'
-                            size='sm'
-                            onChange={handleChangeContent}
-                            value={content}
-                            bg={'white'}
-                            p={1}
+                        <br/>
+                        <TextField
+                            label="프로젝트 내용"
+                            multiline
+                            rows={4}
+                            variant="standard"
+                            style={{ marginTop: 10, width: '100%' }}
                         />
-                        <Text className="text-sm font-bold" p={1}>기간</Text>
                         <DatePicker
                             className='text-base w-64'
                             selectsRange={true}
@@ -141,31 +132,41 @@ const ProjectCrew = (props) => {
                             customInput={<CalenderButton />}
                         />
 
-                        <Text className="text-sm font-bold" p={1}>투입인원 및 역활</Text>
-                        <Wrap>
-                            <WrapItem>
-                                <Input
-                                    type='number'
-                                    min='0'
-                                    max='100'
-                                    width='250px'
-                                    placeholder='투입인원'
-                                    size='sm'
-                                    onChange={handleChangeMemberCount}
-                                    value={memberCount}
-                                    p={1}
-                                />
-                            </WrapItem>
-                            <WrapItem>
-                                <Select value={role} onChange={handleChangeMembers} size='sm' >
-                                    <option value="PL">PL</option>
-                                    <option value="BackEnd">BackEnd</option>
-                                </Select>
-                            </WrapItem>
-                            <WrapItem>
-                                <Button size='sm'>추가</Button>
-                            </WrapItem>
-                        </Wrap>
+                        <Box className="flex">
+                            
+                            <TextField
+                                id="filled-number"
+                                label="투입인원"
+                                type="number"
+                                variant="standard"
+                                inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                            />
+
+                            <FormControl sx={{ m: 1, minWidth: 150 }} size="small">
+                                <InputLabel>역할</InputLabel>
+                                <Select
+                                    value={age}
+                                    label="Age"
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem value="">
+                                    <em>(선택하지않음)</em>
+                                    </MenuItem>
+                                    <MenuItem value={'pl'}>PL</MenuItem>
+                                    <MenuItem value={'backend'}>Backend</MenuItem>
+                                    <MenuItem value={'frontend'}>Frontend</MenuItem>
+                            </Select>
+                            </FormControl>
+                            <Button
+                                className='w-96'
+                                fontSize={'16px'}
+                                variant='outlined'
+                                size="small"
+                                style={{color: "black", marginTop: 10, marginBottom: 10, borderColor: 'black', fontSize: '1rem', width: '5rem'}}
+                            >
+                                추가
+                            </Button>                            
+                        </Box>
                     </Box>
                 </div>
             </Card>

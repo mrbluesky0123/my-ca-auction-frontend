@@ -1,11 +1,11 @@
 import NavbarLogo from "./NavbarLogo"
 import NavbarInfoMenu from "./NavbarInfoMenu"
 
-const Navbar = () => {
-    
+const Navbar = ({handleDrawerToggle, window}) => {
+
     return (
         <div className="w-screen flex justify-between">
-                <NavbarInfoMenu />
+                <NavbarInfoMenu handleDrawerToggle={handleDrawerToggle}/>
         </div>
     )
 }

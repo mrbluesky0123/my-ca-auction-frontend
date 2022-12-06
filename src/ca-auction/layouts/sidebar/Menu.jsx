@@ -1,135 +1,114 @@
-import { Link } from "react-router-dom";
-// import {
-//     Accordion,
-//     AccordionItem,
-//     AccordionButton,
-//     AccordionPanel,
-//     AccordionIcon,
-//     Box,
-//     Divider,
-//   } from '@chakra-ui/react'
-  import { BsDot } from "react-icons/bs";
-  import {
-    ArrowForwardIcon
-  } from '@chakra-ui/icons'
-  import Accordion from '@mui/material/Accordion';
+import { useTheme } from '@mui/material/styles';
+import {Box, Drawer, useMediaQuery} from '@mui/material';
+import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MuiAccordion from '@mui/material/Accordion';
-import { styled } from '@mui/material/styles';
-import { Divider } from "@mui/material";
-const Menu = () => {
-    const Accordion = styled((props) => (
-        <MuiAccordion disableGutters elevation={0} square {...props} />
-      ))(({ theme }) => ({
-        border: `0px solid ${theme.palette.divider}`,
-        '&:not(:last-child)': {
-            borderBottom: 0,
-        },
-        '&:before': {
-            display: 'none',
-            color: 'red'
-        },
-        '&.Mui-expanded': {
-            backgroundColor: `rgb(209, 238, 255)`,
-            // border: `1px solid grey`
-        }
-      }));
-    return (
-        <>
-        <Accordion>
+import {styled} from '@mui/material/styles';
+import {Divider} from "@mui/material";
+import {Link} from "react-router-dom";
+
+const drawerWidth = 200;
+const Menu = ({drawerOpen, drawerToggle, window}) => {
+  const Accordion = styled((props) => (
+    <MuiAccordion disableGutters elevation={0} square {...props} />
+  ))(({theme}) => ({
+    border: `0px solid ${theme.palette.divider}`,
+    '&:not(:last-child)': {
+      borderBottom: 0,
+    },
+    '&:before': {
+      display: 'none',
+      color: 'red'
+    },
+    '&.MuiAccordion-root': {
+      '&.Mui-expanded': {
+        backgroundColor: `rgb(209, 238, 255)`,
+        border: `1px solid`,
+        borderColor: `rgb(186, 186, 186)`
+      }
+    }
+  }));
+  const theme = useTheme();
+  const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
+
+  const drawer = (
+    <>
+      <Accordion>
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
+          expandIcon={<ExpandMoreIcon/>}
         >
           <Typography>프로젝트</Typography>
         </AccordionSummary>
         <AccordionDetails
-            className="bg-slate-100 hover:bg-slate-200">
-            <Typography>
+          className="bg-slate-100 hover:bg-slate-200">
+          <Typography>
             <Link to="/projectcrew">프로젝트 구인</Link>
-            </Typography>
+          </Typography>
         </AccordionDetails>
 
         <AccordionDetails
-            className="bg-slate-100 hover:bg-slate-200">
-            <Typography>
+          className="bg-slate-100 hover:bg-slate-200">
+          <Typography>
             <Link to="/newproject">프로젝트 구직</Link>
-            </Typography>
+          </Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion>
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
+          expandIcon={<ExpandMoreIcon/>}
         >
           <Typography>Accordion 2</Typography>
         </AccordionSummary>
         <AccordionDetails
-            className="bg-slate-50 hover:bg-slate-200">
-            <Typography>
+          className="bg-slate-50 hover:bg-slate-200">
+          <Typography>
             <Link to="/projectcrew">프로젝트 구인</Link>
-            </Typography>
+          </Typography>
         </AccordionDetails>
-        <Divider />
+        <Divider/>
         <AccordionDetails
-            className="bg-slate-50 hover:bg-slate-200">
-            <Typography>
+          className="bg-slate-50 hover:bg-slate-200">
+          <Typography>
             <Link to="/newproject">프로젝트 구직</Link>
-            </Typography>
+          </Typography>
         </AccordionDetails>
       </Accordion>
-      </>
-        // <Accordion defaultIndex={[0]} allowMultiple>
-        //     <AccordionItem>
-        //         <AccordionButton>
-        //             <Box flex='1' textAlign='left'>
-        //                 <Link to="/">Home</Link>
-        //             </Box>
-        //         </AccordionButton>
-        //     </AccordionItem>
-        //     <AccordionItem >
-        //         <AccordionButton>
-        //             <Box flex='1' textAlign='left'>
-        //                 프로젝트
-        //             </Box>
-        //             <AccordionIcon />
-        //         </AccordionButton>
-        //         <AccordionPanel h={9} className="hover:bg-slate-200">
-        //             <div className="flex flex-row text-sm">
-        //                 <Box flex='1' textAlign='left'>
-        //                     <Link to="/projectcrew">프로젝트 구인</Link>
-        //                 </Box>
-        //             </div>
-        //         </AccordionPanel>
-        //         <AccordionPanel h={9} className="hover:bg-slate-200 align-middle">
-        //             <div className="flex flex-row text-sm">
-        //                 <Box flex='1' textAlign='left'>    
-        //                     <Link to="/newproject">프로젝트 구직</Link>
-        //                 </Box>
-        //             </div>
-        //         </AccordionPanel>
-        //     </AccordionItem>
+    </>
+  );
 
-        //     <AccordionItem>
-        //         <h2>
-        //         <AccordionButton>
-        //             <Box flex='1' textAlign='left'>
-        //             Section 2 title
-        //             </Box>
-        //             <AccordionIcon />
-        //         </AccordionButton>
-        //         </h2>
-        //         <AccordionPanel pb={4}>
-        //         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        //         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        //         veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        //         commodo consequat.
-        //         </AccordionPanel>
-        //     </AccordionItem>
-        // </Accordion>
-    )
-    
-}
+  const container = window !== undefined ? () => window.document.body : undefined;
+
+  return (
+    <Box component="nav"
+         sx={{flexShrink: {md: 0}, width: matchUpMd ? drawerWidth : 'auto'}}
+         aria-label="mailbox folders">
+      <Drawer
+        container={container}
+        variant={matchUpMd ? 'persistent' : 'temporary'}
+        anchor="left"
+        open={drawerOpen}
+        onClose={drawerToggle}
+        sx={{
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+            background: theme.palette.background.default,
+            color: theme.palette.text.primary,
+            borderRight: 'none',
+            [theme.breakpoints.up('md')]: {
+              top: '88px'
+            }
+          }
+        }}
+        ModalProps={{keepMounted: true}}
+        color="inherit"
+      >
+        {drawer}
+      </Drawer>
+    </Box>
+  );
+};
 
 export default Menu;
