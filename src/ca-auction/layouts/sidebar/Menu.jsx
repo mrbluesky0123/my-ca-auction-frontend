@@ -12,6 +12,7 @@ import {Link} from "react-router-dom";
 
 const drawerWidth = 200;
 const Menu = ({drawerOpen, drawerToggle, window}) => {
+  const theme = useTheme();
   const Accordion = styled((props) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
   ))(({theme}) => ({
@@ -25,13 +26,11 @@ const Menu = ({drawerOpen, drawerToggle, window}) => {
     },
     '&.MuiAccordion-root': {
       '&.Mui-expanded': {
-        backgroundColor: `rgb(209, 238, 255)`,
-        border: `1px solid`,
-        borderColor: `rgb(186, 186, 186)`
+        background: theme.palette.primary,
+        border: `none`,
       }
     }
   }));
-  const theme = useTheme();
   const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
 
   const drawer = (
@@ -42,8 +41,7 @@ const Menu = ({drawerOpen, drawerToggle, window}) => {
         >
           <Typography>프로젝트</Typography>
         </AccordionSummary>
-        <AccordionDetails
-          className="bg-slate-100 hover:bg-slate-200">
+        <AccordionDetails>
           <Typography>
             <Link to="/projectcrew">프로젝트 구인</Link>
           </Typography>
@@ -83,7 +81,10 @@ const Menu = ({drawerOpen, drawerToggle, window}) => {
 
   return (
     <Box component="nav"
-         sx={{flexShrink: {md: 0}, width: matchUpMd ? drawerWidth : 'auto'}}
+         sx={{
+           flexShrink: {md: 0},
+           width: matchUpMd ? drawerWidth : 'auto',
+        }}
          aria-label="mailbox folders">
       <Drawer
         container={container}
@@ -92,15 +93,18 @@ const Menu = ({drawerOpen, drawerToggle, window}) => {
         open={drawerOpen}
         onClose={drawerToggle}
         sx={{
+          border: theme.palette.divider,
           '& .MuiDrawer-paper': {
             width: drawerWidth,
-            background: theme.palette.background.default,
+            backgroundColor: theme.palette.background.default,
+            // background: 'white',
             color: theme.palette.text.primary,
-            borderRight: 'none',
+            borderRightColor: theme.palette.divider,
             [theme.breakpoints.up('md')]: {
-              top: '88px'
-            }
-          }
+              top: '55px'
+            },
+            elevation: 2
+          },
         }}
         ModalProps={{keepMounted: true}}
         color="inherit"

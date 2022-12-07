@@ -92,10 +92,10 @@ const ProjectCrew = (props) => {
     ));
 
     return (
-        <div>
-            <Card 
+        <div className='bg-amber-900'>
+            <Card
                 elevation={2}
-                style={{padding: 20, margin: 10, backgroundColor: 'rgb(255, 254, 247)'}} 
+                style={{padding: 20, margin: 10, backgroundColor: 'rgb(255, 254, 247)'}}
             >
                 <div className="block">
                     <div className="text-2xl font-bold">
@@ -133,7 +133,7 @@ const ProjectCrew = (props) => {
                         />
 
                         <Box className="flex">
-                            
+
                             <TextField
                                 id="filled-number"
                                 label="투입인원"
@@ -165,7 +165,7 @@ const ProjectCrew = (props) => {
                                 style={{color: "black", marginTop: 10, marginBottom: 10, borderColor: 'black', fontSize: '1rem', width: '5rem'}}
                             >
                                 추가
-                            </Button>                            
+                            </Button>
                         </Box>
                     </Box>
                 </div>

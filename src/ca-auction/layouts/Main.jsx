@@ -1,48 +1,102 @@
-import Sidebar from "./sidebar/Sidebar"
+import {useState} from "react";
+
+import Menu from "./sidebar/Menu"
 import Navbar from "./navbar/Navbar"
 import ProjectCrew from "../pages/projectcrew/ProjectCrew"
 import {Routes, Route} from "react-router-dom"
 import GanttChartExample from '../pages/GanttChartExample'
 import HomeBody from "../pages/home/HomeBody"
 import {ThemeProvider, createTheme} from '@mui/material/styles';
-import {useState} from "react";
+import {CssBaseline} from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
+import yellow from '@mui/material/colors/yellow'
 
 
 const darkTheme = createTheme({
   palette: {
     mode: 'light',
+    primary: yellow
   },
 });
 
+// const kakaobankTheme = createTheme({
+//   palette: {
+//
+//   }
+// })
+
+const drawerWidth = 200;
 
 const Home = () => {
   const [isOpened, setOpened] = useState(true)
+  const theme = useTheme();
   const handleMenuOpenClose = () => {
     isOpened ? setOpened(false) : setOpened(true)
   }
+  const MainDiv = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme}) => ({
+    // ...theme.typography.mainContent,
+    paddingTop: 50,
+    ...(!isOpened && {
+      borderBottomLeftRadius: 0,
+      borderBottomRightRadius: 0,
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen
+      }),
+      [theme.breakpoints.up('md')]: {
+        marginLeft: - (drawerWidth - 20),
+        width: `calc(100% - ${drawerWidth}px)`
+      },
+      [theme.breakpoints.down('md')]: {
+        marginLeft: '20px',
+        width: `calc(100% - ${drawerWidth}px)`,
+        padding: '16px'
+      },
+      [theme.breakpoints.down('sm')]: {
+        marginLeft: '10px',
+        width: `calc(100% - ${drawerWidth}px)`,
+        padding: '16px',
+        marginRight: '10px'
+      }
+    }),
+    ...(isOpened && {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen
+      }),
+      marginLeft: 0,
+      borderBottomLeftRadius: 0,
+      borderBottomRightRadius: 0,
+      width: `calc(100% - ${drawerWidth}px)`,
+      [theme.breakpoints.down('md')]: {
+        marginLeft: '150px'
+      },
+      [theme.breakpoints.down('sm')]: {
+        marginLeft: '10px'
+      }
+    })
+  }));
+
   return (
     <>
-      <div className="pr-56 text-base w-screen h-screen">
+
         <ThemeProvider theme={darkTheme}>
-          <div className="flex flex-row px-2 py-2 h-12">
-            <Navbar handleDrawerToggle={handleMenuOpenClose}/>
-          </div>
-          <div className="flex flex-row h-screen">
-            <div className="w-96 px-2.5 py-2.5">
-              <Sidebar drawerToggle={handleMenuOpenClose}
-                       drawerOpen={isOpened}/>
-            </div>
-            <div className="w-screen px-2.5 py-2.5">
+          <CssBaseline />
+          <Navbar handleDrawerToggle={handleMenuOpenClose}/>
+          <div className="flex flex-row">
+            <Menu drawerToggle={handleMenuOpenClose} drawerOpen={isOpened}/>
+            <MainDiv theme={theme}>
               <Routes>
                 <Route path="/" element={<HomeBody/>}/>
                 <Route path="/projectcrew" element={<ProjectCrew/>}/>
                 <Route path="/bbb" element={<GanttChartExample/>}/>
               </Routes>
-            </div>
+            </MainDiv>
+            {/*</div>*/}
 
           </div>
         </ThemeProvider>
-      </div>
+
 
 
     </>
