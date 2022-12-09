@@ -1,7 +1,7 @@
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import AccountBoxSharp from "@mui/icons-material/AccountBoxSharp";
+import Menu from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import {useTheme} from "@mui/material/styles";
@@ -23,9 +23,9 @@ const Navbar = ({handleDrawerToggle, window}) => {
           <Toolbar variant="dense">
             <IconButton edge="start" color="inherit" aria-label="menu"
                         sx={{mr: 2}} onClick={handleDrawerToggle}>
-              <AccountBoxSharp/>
+              <Menu/>
             </IconButton>
-            <Typography variant="h6" color="inherit" component="div">
+            <Typography variant="h6" color="inherit" component="div" sx={{fontWeight: 'bold'}}>
               CAuction
             </Typography>
           </Toolbar>

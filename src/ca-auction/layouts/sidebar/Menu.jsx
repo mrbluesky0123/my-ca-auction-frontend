@@ -1,5 +1,5 @@
 import { useTheme } from '@mui/material/styles';
-import {Box, Drawer, useMediaQuery} from '@mui/material';
+import {Box, Button, ButtonBase, Drawer, useMediaQuery} from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -9,6 +9,10 @@ import MuiAccordion from '@mui/material/Accordion';
 import {styled} from '@mui/material/styles';
 import {Divider} from "@mui/material";
 import {Link} from "react-router-dom";
+import HomeIcon from '@mui/icons-material/Home';
+import ComputerIcon from '@mui/icons-material/Computer';
+import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
+import PersonIcon from '@mui/icons-material/Person';
 
 const drawerWidth = 200;
 const Menu = ({drawerOpen, drawerToggle, window}) => {
@@ -31,49 +35,29 @@ const Menu = ({drawerOpen, drawerToggle, window}) => {
       }
     }
   }));
+
+  const MenuButton = styled((props) => (
+    <Button alignLeft elevation={0} color={'secondary'}  {...props} />
+  ))(({theme}) => ({
+    paddingLeft: '20px',
+    fontSize: '1rem',
+    fontWeight: 'bold',
+    border: `0px solid`,
+    width: '200px',
+    height: '40px',
+    justifyContent: "flex-start",
+    '&.MuiButton-root': {
+
+    }
+  }));
   const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
 
   const drawer = (
     <>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon/>}
-        >
-          <Typography>프로젝트</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            <Link to="/projectcrew">프로젝트 구인</Link>
-          </Typography>
-        </AccordionDetails>
-
-        <AccordionDetails
-          className="bg-slate-100 hover:bg-slate-200">
-          <Typography>
-            <Link to="/newproject">프로젝트 구직</Link>
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon/>}
-        >
-          <Typography>Accordion 2</Typography>
-        </AccordionSummary>
-        <AccordionDetails
-          className="bg-slate-50 hover:bg-slate-200">
-          <Typography>
-            <Link to="/projectcrew">프로젝트 구인</Link>
-          </Typography>
-        </AccordionDetails>
-        <Divider/>
-        <AccordionDetails
-          className="bg-slate-50 hover:bg-slate-200">
-          <Typography>
-            <Link to="/newproject">프로젝트 구직</Link>
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
+      <MenuButton startIcon={<HomeIcon/>}><Link to="/">홈</Link></MenuButton>
+      <MenuButton startIcon={<ComputerIcon/>}><Link to="/projectcrew">프로젝트 등록</Link></MenuButton>
+      <MenuButton startIcon={<DeveloperBoardIcon/>}><Link to="/newproject">프로젝트 구직</Link></MenuButton>
+      <MenuButton startIcon={<PersonIcon/>}><Link to="/">내 프로젝트</Link></MenuButton>
     </>
   );
 

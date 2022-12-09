@@ -10,12 +10,15 @@ import {ThemeProvider, createTheme} from '@mui/material/styles';
 import {CssBaseline} from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import yellow from '@mui/material/colors/yellow'
+import indigo from '@mui/material/colors/indigo'
+import MyProject from "../pages/my-project";
 
 
 const darkTheme = createTheme({
   palette: {
     mode: 'light',
-    primary: yellow
+    primary: yellow,
+    secondary: indigo,
   },
 });
 
@@ -89,6 +92,7 @@ const Home = () => {
               <Routes>
                 <Route path="/" element={<HomeBody/>}/>
                 <Route path="/projectcrew" element={<ProjectCrew/>}/>
+                <Route path="/newproject" element={<MyProject/>}/>
                 <Route path="/bbb" element={<GanttChartExample/>}/>
               </Routes>
             </MainDiv>
