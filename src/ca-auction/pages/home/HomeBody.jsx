@@ -1,9 +1,9 @@
-import RecentProjects from "./recentprojects/RecentProjects";
+import Projects from "./projects/Projects";
 
 const HomeBody = () => {
     
     return (
-        <RecentProjects/>
+        <Projects/>
     )
 }
 

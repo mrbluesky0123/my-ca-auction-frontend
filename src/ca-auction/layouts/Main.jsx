@@ -67,7 +67,8 @@ const Home = () => {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen
       }),
-      marginLeft: 0,
+      marginTop: 20,
+      marginLeft: 20,
       borderBottomLeftRadius: 0,
       borderBottomRightRadius: 0,
       width: `calc(100% - ${drawerWidth}px)`,
