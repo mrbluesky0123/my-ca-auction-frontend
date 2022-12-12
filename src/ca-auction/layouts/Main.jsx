@@ -8,9 +8,9 @@ import GanttChartExample from '../pages/GanttChartExample'
 import HomeBody from "../pages/home/HomeBody"
 import {ThemeProvider, createTheme} from '@mui/material/styles';
 import {CssBaseline} from '@mui/material';
-import { styled, useTheme } from '@mui/material/styles';
+import {styled, useTheme} from '@mui/material/styles';
 import yellow from '@mui/material/colors/yellow'
-import indigo from '@mui/material/colors/indigo'
+import common from '@mui/material/colors/'
 import MyProject from "../pages/my-project";
 
 
@@ -18,7 +18,6 @@ const darkTheme = createTheme({
   palette: {
     mode: 'light',
     primary: yellow,
-    secondary: indigo,
   },
 });
 
@@ -36,7 +35,7 @@ const Home = () => {
   const handleMenuOpenClose = () => {
     isOpened ? setOpened(false) : setOpened(true)
   }
-  const MainDiv = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme}) => ({
+  const MainDiv = styled('main', {shouldForwardProp: (prop) => prop !== 'open'})(({theme}) => ({
     // ...theme.typography.mainContent,
     paddingTop: 50,
     ...(!isOpened && {
@@ -47,7 +46,7 @@ const Home = () => {
         duration: theme.transitions.duration.leavingScreen
       }),
       [theme.breakpoints.up('md')]: {
-        marginLeft: - (drawerWidth - 20),
+        marginLeft: -(drawerWidth - 20),
         width: `calc(100% - ${drawerWidth}px)`
       },
       [theme.breakpoints.down('md')]: {
@@ -67,8 +66,7 @@ const Home = () => {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen
       }),
-      marginTop: 20,
-      marginLeft: 20,
+      marginLeft: 0,
       borderBottomLeftRadius: 0,
       borderBottomRightRadius: 0,
       width: `calc(100% - ${drawerWidth}px)`,
@@ -94,14 +92,13 @@ const Home = () => {
                 <Route path="/" element={<HomeBody/>}/>
                 <Route path="/projectcrew" element={<ProjectCrew/>}/>
                 <Route path="/newproject" element={<MyProject/>}/>
-                <Route path="/bbb" element={<GanttChartExample/>}/>
+                <Route path="/aaa" element={<GanttChartExample/>}/>
               </Routes>
             </MainDiv>
             {/*</div>*/}
 
-          </div>
-        </ThemeProvider>
-
+        </div>
+      </ThemeProvider>
 
 
     </>

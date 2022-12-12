@@ -37,7 +37,7 @@ const Menu = ({drawerOpen, drawerToggle, window}) => {
   }));
 
   const MenuButton = styled((props) => (
-    <Button alignLeft elevation={0} color={'secondary'}  {...props} />
+    <Button alignLeft elevation={0} color={'inherit'}  {...props} />
   ))(({theme}) => ({
     paddingLeft: '20px',
     fontSize: '1rem',
@@ -54,10 +54,10 @@ const Menu = ({drawerOpen, drawerToggle, window}) => {
 
   const drawer = (
     <>
-      <MenuButton startIcon={<HomeIcon/>}><Link to="/">홈</Link></MenuButton>
-      <MenuButton startIcon={<ComputerIcon/>}><Link to="/projectcrew">프로젝트 등록</Link></MenuButton>
-      <MenuButton startIcon={<DeveloperBoardIcon/>}><Link to="/newproject">프로젝트 구직</Link></MenuButton>
-      <MenuButton startIcon={<PersonIcon/>}><Link to="/">내 프로젝트</Link></MenuButton>
+      <Link to="/main/"><MenuButton startIcon={<HomeIcon className={'mr-[10px]' } />}>프로젝트</MenuButton></Link>
+      <Link to="/main/projectcrew"><MenuButton startIcon={<ComputerIcon className={'mr-[10px]'}/>}>프로젝트 등록</MenuButton></Link>
+      <Link to="/main/newproject"><MenuButton startIcon={<DeveloperBoardIcon className={'mr-[10px]'}/>}>프로젝트 구직</MenuButton></Link>
+      <Link to="/main/"><MenuButton startIcon={<PersonIcon className={'mr-[10px]'} />}>내 프로젝트</MenuButton></Link>
     </>
   );
 
@@ -76,6 +76,7 @@ const Menu = ({drawerOpen, drawerToggle, window}) => {
         anchor="left"
         open={drawerOpen}
         onClose={drawerToggle}
+        elevation={2}
         sx={{
           border: theme.palette.divider,
           '& .MuiDrawer-paper': {

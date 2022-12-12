@@ -2,9 +2,11 @@ import {Box} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Badge from '@mui/material/Badge';
 import * as React from "react";
+import { useTheme } from '@mui/material/styles';
 
 
 const PositionTag = ({positionName, vacancy}) => {
+  const theme = useTheme();
   const getPositionTagColorStyle = () => {
     switch (positionName) {
       case 'frontend':
@@ -28,21 +30,24 @@ const PositionTag = ({positionName, vacancy}) => {
       badgeContent={vacancy}
       color={'primary'}
       sx={{
-        "& .MuiBadge-badge": { fontSize: 11, height: 14, minWidth: 12},
+        "& .MuiBadge-badge": { fontSize: 11, height: 14, minWidth: 12, border: `0.001rem solid ${theme.palette.divider}`,},
         marginX: '7px',
         marginY: '3px',
+
       }}
     >
       <Box sx={{
-        paddingX: '5px',
+        paddingX: '10px',
         paddingY: '4px',
         minWidth: 'full',
         height: '30px',
-        borderRadius: 3,
+        border: `0.001rem solid ${theme.palette.divider}`,
+        // boxShadow: 1,
+        borderRadius: 2,
         backgroundColor: tagColor.backgroundColor,
         color: tagColor.textColor,
       }}>
-        <Typography sx={{fontSize: '14px'}} pb={5}>
+        <Typography sx={{fontSize: '13px'}} pb={5}>
           {'#' + positionName}
         </Typography>
       </Box>

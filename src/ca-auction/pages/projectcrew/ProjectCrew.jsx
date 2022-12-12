@@ -80,7 +80,7 @@ const ProjectCrew = (props) => {
             >
                 <div className="block">
                     <div className="text-2xl font-bold">
-                        프로젝트 구인
+                        프로젝트 등록
                     </div>
                     <div className='my-2.5'>
                         <Divider />

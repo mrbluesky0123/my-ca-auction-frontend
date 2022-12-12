@@ -63,7 +63,7 @@ const ProjectCard = ({isMyProject, id, title, writer, status, regDate, content, 
         <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
           {regDate}
         </Typography>
-        <Typography sx={{fontWeight: 'normal'}} variant="h6" component="div">
+        <Typography sx={{fontWeight: 'bold'}} variant="h6" component="div">
           {title}
         </Typography>
         <Typography sx={{fontSize: 12, mb: 1.5}} color="text.secondary">

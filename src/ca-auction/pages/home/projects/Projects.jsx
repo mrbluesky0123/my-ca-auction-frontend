@@ -10,8 +10,13 @@ import ProjectCard from "./ProjectCard";
 const Projects = () => {
 
   return (
-    <div>
-      <Typography className='text-2xl font-bold' pb={5}>Recent Projects</Typography>
+    <div className={'m-[10px]'}>
+      <Typography sx={{
+        fontWeight: 'bold',
+        marginLeft: '10px',
+        marginTop: '35px',
+        marginBottom: '20px'
+      }} variant='h4'>Projects</Typography>
       <div className='flex flex-wrap'>
         {/*    <SimpleGrid spacing={5} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>*/}
         <ProjectCard
@@ -22,7 +27,10 @@ const Projects = () => {
           status={"inProgress"}
           regDate={"2022/12/09"}
           content={"가이아 고도화를 위한 프로젝트입니다."}
-          positionList={[{name: 'backend', vacancy: 4}, {name: 'frontend', vacancy: 2}, {name: 'PL', vacancy: 1}]}
+          positionList={[{name: 'backend', vacancy: 4}, {
+            name: 'frontend',
+            vacancy: 2
+          }, {name: 'PL', vacancy: 1}]}
         />
         {/*</SimpleGrid>*/}
         <ProjectCard
@@ -33,7 +41,10 @@ const Projects = () => {
           status={"complete"}
           regDate={"2022/12/10"}
           content={"공공마이데이터는 신용정보원을 호출하여 은행 업무에 쓰이는 여러 문서들을 발급받을 수 있도록 하는 시스템입니다."}
-          positionList={[{name: 'backend', vacancy: 2}, {name: 'PL', vacancy: 1}]}
+          positionList={[{name: 'backend', vacancy: 2}, {
+            name: 'PL',
+            vacancy: 1
+          }]}
         />
         <ProjectCard
           isMyProject={false}
@@ -43,7 +54,10 @@ const Projects = () => {
           status={"inProgress"}
           regDate={"2022/12/10"}
           content={"홈화면 전계좌를 조회하는 오슬로의 차세대 프로젝트 멤버를 모십니다."}
-          positionList={[{name: 'backend', vacancy: 3}, {name: 'PL', vacancy: 1}]}
+          positionList={[{name: 'backend', vacancy: 3}, {
+            name: 'PL',
+            vacancy: 1
+          }]}
         />
         <ProjectCard
           isMyProject={false}
@@ -53,7 +67,10 @@ const Projects = () => {
           status={"inProgress"}
           regDate={"2022/12/10"}
           content={"계정계의 동의정보를 DIVA로 마이그레이션 하는 프로젝트입니다."}
-          positionList={[{name: 'backend', vacancy: 4}, {name: '계정계', vacancy: 1}, {name: 'PL', vacancy: 1}]}
+          positionList={[{name: 'backend', vacancy: 4}, {
+            name: '계정계',
+            vacancy: 1
+          }, {name: 'PL', vacancy: 1}]}
         />
         <ProjectCard
           isMyProject={false}
@@ -63,7 +80,10 @@ const Projects = () => {
           status={"complete"}
           regDate={"2022/12/10"}
           content={"파기를 위한 시스템인 Athena의 새 주인을 찾습니다!"}
-          positionList={[{name: 'backend', vacancy: 2}, {name: 'frontend', vacancy: 2}, {name: 'PL', vacancy: 1}]}
+          positionList={[{name: 'backend', vacancy: 2}, {
+            name: 'frontend',
+            vacancy: 2
+          }, {name: 'PL', vacancy: 1}]}
         />
         <ProjectCard
           isMyProject={true}
@@ -83,7 +103,10 @@ const Projects = () => {
           status={"inProgress"}
           regDate={"2022/12/10"}
           content={"공공마이데이터의 admin 화면 구축을 위한 프로젝트입니다."}
-          positionList={[{name: 'backend', vacancy: 2}, {name: 'frontend', vacancy: 1}]}
+          positionList={[{name: 'backend', vacancy: 2}, {
+            name: 'frontend',
+            vacancy: 1
+          }]}
         />
         {/*</SimpleGrid>*/}
       </div>

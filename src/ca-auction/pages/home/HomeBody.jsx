@@ -1,10 +1,10 @@
 import Projects from "./projects/Projects";
 
 const HomeBody = () => {
-    
-    return (
-        <Projects/>
-    )
+
+  return (
+    <Projects/>
+  )
 }
 
 export default HomeBody;

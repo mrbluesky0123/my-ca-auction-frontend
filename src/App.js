@@ -1,16 +1,19 @@
 import logo from './logo.svg';
 import './App.css';
 import Main from './ca-auction/layouts/Main';
-import { BrowserRouter } from 'react-router-dom'
+import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import { ChakraProvider } from '@chakra-ui/react'
+import Login from "./ca-auction/pages/login/Login";
+import React from "react";
 
 function App() {
   return (
-    <ChakraProvider>
       <BrowserRouter>
-        <Main />
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/main/*" element={<Main />} />
+        </Routes>
       </BrowserRouter>
-    </ChakraProvider>
   );
 }
 

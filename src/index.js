@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './ca-auction/styles/global.css';
+import Login from './ca-auction/pages/login/Login';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
