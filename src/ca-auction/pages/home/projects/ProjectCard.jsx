@@ -2,13 +2,16 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import Box from '@mui/material/Box';
+import PersonIcon from '@mui/icons-material/Person';
 import Card from "@mui/material/Card";
 import * as React from "react";
-import {styled} from "@mui/material/styles";
+import {styled, useTheme} from "@mui/material/styles";
 import PositionTag from "./PositionTag";
 
+const cardWidth = '350px';
 
-const ProjectCard = ({isMyProject, id, title, writer, status, regDate, content, positionList}) => {
+const ProjectCard = ({isMyProject, id, title, writer, status, regDate, content, positionList, cardSelectHandler}) => {
+  const theme = useTheme()
   const getCardStyleByStatus = () => {
     let color = {}
     switch (status) {
@@ -34,6 +37,11 @@ const ProjectCard = ({isMyProject, id, title, writer, status, regDate, content, 
         return "모집진행중";
     }
   }
+
+  const onCardClick = () => {
+    cardSelectHandler(id)
+  }
+
   const bull = (
     <Box
       component="span"
@@ -43,26 +51,61 @@ const ProjectCard = ({isMyProject, id, title, writer, status, regDate, content, 
     </Box>
   );
   const ProjectCard = styled((props) => (
-    <Card sx={{
-      margin: '10px',
-      width: '350px',
-      backgroundColor: getCardStyleByStatus().backgroundColor,
-      "&:hover": {
-        backgroundColor: getCardStyleByStatus().backgroundColorHover,
-        cursor: "pointer"
-      }
-    }} elevation={1} {...props} />
+    <Card
+      sx={{
+        margin: '10px',
+        width: cardWidth,
+        backgroundColor: getCardStyleByStatus().backgroundColor,
+        "&:hover": {
+          backgroundColor: getCardStyleByStatus().backgroundColorHover,
+          cursor: "pointer"
+        }
+      }}
+      elevation={1}
+      onClick={() => onCardClick()} {...props} />
   ))(({theme}) => ({
     border: isMyProject ? `2px solid black` : `1px solid ${theme.palette.divider}`,
     backgroundColor: getCardStyleByStatus()
   }));
 
+  const myProject = () => (
+    <Box sx={{
+        paddingX: '2px',
+        // paddingTop: '1px',
+        // paddingBottom: '4px',
+        paddingY: '0px',
+        marginLeft: '10px',
+        marginTop: '2px',
+        minWidth: 'full',
+        height: '15px',
+        border: `0.001rem none ${theme.palette.divider}`,
+        // boxShadow: 1,
+        borderRadius: 1,
+        backgroundColor: '#fffd91',
+        color: '#1da200',
+        verticalAlign: 'center'
+      }}
+    >
+        <Typography sx={{fontSize: '11px',}} >
+          <PersonIcon sx={{
+            fontSize: 'small',
+            marginRight: '1px',
+            marginBottom: '2px',
+          }} className={'mr-[5px]'}/>
+          {'Owner'}
+        </Typography>
+      </Box>
+  )
   return (
+
     <ProjectCard>
       <CardContent sx={{minHeight: '188px'}}>
-        <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
-          {regDate}
-        </Typography>
+        <div className='flex flex-wrap align-sub'>
+          <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+            {regDate}
+          </Typography>
+          {isMyProject? myProject() : null}
+        </div>
         <Typography sx={{fontWeight: 'bold'}} variant="h6" component="div">
           {title}
         </Typography>
