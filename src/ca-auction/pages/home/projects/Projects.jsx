@@ -4,29 +4,39 @@ import Typography from '@mui/material/Typography';
 import ProjectCard from "./ProjectCard";
 import {Link} from 'react-scroll'
 import {Box} from "@mui/material";
+import ProjectDetail from "../projectdetail/ProjectDetail";
 
 
-const Projects = () => {
+const Projects = ({projectId}) => {
   const [selectedProjectID, setSelectedProjectID] = useState(null)
   const [index, setIndex] = useState(null);
   const focusedProjectRef = useRef([]);
   const divRef = useRef();
   // const focusedProjectRef2 = useRef();
 
-  const cardSelectHandler = (projectId) => {
-    setIndex(projectId);
-    if (selectedProjectID === projectId) {
+  const cardSelectHandler = (id) => {
+    setIndex(id);
+    if (selectedProjectID === id) {
       setSelectedProjectID(null)
     } else {
-      setSelectedProjectID(projectId)
+      setSelectedProjectID(id)
     }
   }
+
+  useEffect(() => {
+    console.log("#####", projectId)
+    if(projectId !== null || projectId !== undefined) {
+      setIndex(projectId);
+      setSelectedProjectID(projectId);
+      // cardSelectHandler(projectId)
+    }
+  }, [projectId])
 
   useEffect(() => {
     if(index !== null) {
       console.log("########", focusedProjectRef.current);
       // focusedProjectRef.current[index].scrollIntoView({ behavior: 'smooth'});
-      divRef.current.scroll({top: (index-1) * 260, behavior: 'smooth'})
+      divRef.current.scroll({top: (index-1) * 262, behavior: 'smooth'})
     }
   }, [index])
 
@@ -50,6 +60,7 @@ const Projects = () => {
           <div id={'1'} ref={(el) => (focusedProjectRef.current[1] = el)}>
             <ProjectCard
               isMyProject={false}
+              isSelected={selectedProjectID === 1 ? true : false}
               id={1}
               title={"GAIA 고도화 프로젝트"}
               writer={"radi.yang"}
@@ -68,6 +79,7 @@ const Projects = () => {
             <div id={'2'} ref={(el) => (focusedProjectRef.current[2] = el)}>
                 <ProjectCard
                   isMyProject={true}
+                  isSelected={selectedProjectID === 2 ? true : false}
                   id={2}
                   title={"공공마이데이터 시스템 구축"}
                   writer={"keedi.kim"}
@@ -86,6 +98,7 @@ const Projects = () => {
           <div id={'3'} ref={(el) => (focusedProjectRef.current[3] = el)}>
             <ProjectCard
               isMyProject={false}
+              isSelected={selectedProjectID === 3 ? true : false}
               id={3}
               title={"OSLO 2.0 프로젝트"}
               writer={"rami.c"}
@@ -103,6 +116,7 @@ const Projects = () => {
           <div id='4' ref={(el) => (focusedProjectRef.current[4] = el)}>
             <ProjectCard
               isMyProject={false}
+              isSelected={selectedProjectID === 4 ? true : false}
               id={4}
               title={"동의정보 migration 프로젝트"}
               writer={"randy.kang"}
@@ -120,6 +134,7 @@ const Projects = () => {
           <div id={'5'} ref={(el) => (focusedProjectRef.current[5] = el)}>
             <ProjectCard
               isMyProject={false}
+              isSelected={selectedProjectID === 5 ? true : false}
               id={5}
               title={"Athena 인수인계"}
               writer={"rinto.ri"}
@@ -137,6 +152,7 @@ const Projects = () => {
           <div id={'6'} ref={(el) => (focusedProjectRef.current[6] = el)}>
             <ProjectCard
               isMyProject={true}
+              isSelected={selectedProjectID === 6 ? true : false}
               id={6}
               title={"고객인증캠프의 새로운 먹거리를 찾아서"}
               writer={"hanson.pl"}
@@ -154,6 +170,7 @@ const Projects = () => {
           <div id={'7'} ref={(el) => (focusedProjectRef.current[7] = el)}>
             <ProjectCard
               isMyProject={false}
+              isSelected={selectedProjectID === 7 ? true : false}
               id={7}
               title={"공공마이데이터 admin 화면 구축"}
               writer={"ray.nk"}
@@ -171,6 +188,7 @@ const Projects = () => {
           <div id={'8'} ref={(el) => (focusedProjectRef.current[8] = el)}>
             <ProjectCard
               isMyProject={false}
+              isSelected={selectedProjectID === 8 ? true : false}
               id={8}
               title={"공공마이데이터 admin 화면 구축"}
               writer={"ray.nk"}
@@ -188,6 +206,7 @@ const Projects = () => {
           <div id={'9'} ref={(el) => (focusedProjectRef.current[9] = el)}>
             <ProjectCard
               isMyProject={false}
+              isSelected={selectedProjectID === 9 ? true : false}
               id={9}
               title={"공공마이데이터 admin 화면 구축"}
               writer={"ray.nk"}
@@ -205,6 +224,7 @@ const Projects = () => {
           <div id={'10'} ref={(el) => (focusedProjectRef.current[10] = el)}>
             <ProjectCard
               isMyProject={false}
+              isSelected={selectedProjectID === 10 ? true : false}
               id={10}
               title={"공공마이데이터 admin 화면 구축"}
               writer={"ray.nk"}
@@ -222,6 +242,7 @@ const Projects = () => {
           <div id={'11'} ref={(el) => (focusedProjectRef.current[11] = el)}>
             <ProjectCard
               isMyProject={false}
+              isSelected={selectedProjectID === 11 ? true : false}
               id={11}
               title={"공공마이데이터 admin 화면 구축"}
               writer={"ray.nk"}
@@ -239,6 +260,7 @@ const Projects = () => {
           <div id={'12'} ref={(el) => (focusedProjectRef.current[12] = el)}>
             <ProjectCard
               isMyProject={false}
+              isSelected={selectedProjectID === 12 ? true : false}
               id={12}
               title={"공공마이데이터 admin 화면 구축"}
               writer={"ray.nk"}
@@ -256,7 +278,8 @@ const Projects = () => {
           <div id={'13'} ref={(el) => (focusedProjectRef.current[13] = el)}>
             <ProjectCard
               isMyProject={false}
-              id={12}
+              isSelected={selectedProjectID === 13 ? true : false}
+              id={13}
               title={"공공마이데이터 admin 화면 구축"}
               writer={"ray.nk"}
               status={"inProgress"}
@@ -275,18 +298,7 @@ const Projects = () => {
         </div>
         {
           selectedProjectID === null ? null :
-            <div className={'flex flex-col flex-grow  h-screen overflow-y-auto'}>
-              <Typography variant={'h1'}>Hello, {index} world!</Typography>
-              <Typography variant={'h1'}>Hello, {index} world!</Typography>
-              <Typography variant={'h1'}>Hello, {index} world!</Typography>
-              <Typography variant={'h1'}>Hello, {index} world!</Typography>
-              <Typography variant={'h1'}>Hello, {index} world!</Typography>
-              <Typography variant={'h1'}>Hello, {index} world!</Typography>
-              <Typography variant={'h1'}>Hello, {index} world!</Typography>
-              <Typography variant={'h1'}>Hello, {index} world!</Typography>
-              <Typography variant={'h1'}>Hello, {index} world!</Typography>
-              <Typography variant={'h1'}>Hello, {index} world!</Typography>
-            </div>
+            <ProjectDetail projectId={selectedProjectID} />
         }
 
       </div>

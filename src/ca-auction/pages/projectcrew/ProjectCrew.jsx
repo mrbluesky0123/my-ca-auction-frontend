@@ -1,29 +1,15 @@
 import React, {useEffect, useState} from "react";
-
-const ref = React.createRef();
 import "react-datepicker/dist/react-datepicker.css";
 import {ko} from "date-fns/esm/locale";
-import {
-  Divider,
-  TextField,
-  Button,
-  Box,
-  Card,
-  InputLabel,
-  MenuItem,
-  FormControl,
-  Select,
-  Autocomplete,
-  InputAdornment,
-  OutlinedInput
-} from "@mui/material";
+import {Box, Button, Card, Divider, TextField} from "@mui/material";
 
 import TextField_DatePicker from '@mui/material/TextField';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
-import styled from 'styled-components'
 import JobOffer from "./JobOffer";
+
+const ref = React.createRef();
 
 
 const ProjectCrew = (props) => {
@@ -34,7 +20,7 @@ const ProjectCrew = (props) => {
   const [role, setRole] = useState("PL");  //투입인원 롤
   const [members, setMembers] = useState(new Map()); //투입인원의 롤 및 인원수 저장을 위한 맵
   const [memberCount, setMemberCount] = useState("1"); //투입인원 수
-  const [isVisibleRole, setIsVisibleRole] = useState(true); //추가입력 역할 TextField
+  const [isVisibleRole, setIsVisibleRole] = useState(false); //추가입력 역할 TextField
   const [totalMembers, setTotalMembers] = useState(0); //총 투입인원 수
   const [index, setIndex] = useState(0);
 
@@ -49,7 +35,6 @@ const ProjectCrew = (props) => {
     setTotalMembers(total);
 
   }, [members]);
-
 
   const memberList = () => {
     var arr = [];
@@ -67,27 +52,9 @@ const ProjectCrew = (props) => {
           }} onClick={() => deleteTagItem(key)}>{key}({value})</Button>)
         });
     */
-
     members.forEach((value, key) => {
-      console.log("value", value);
-
-      arr.push(<JobOffer akey={key} memberCount={value.memberCount}
-                         role={value.role}
-                         startDate={value.startDate} endDate={value.endDate}
-                         propDeleteFunction={(akey) => {
-                           del(akey);
-                           setIsVisibleRole(!isVisibleRole);
-
-                         }}
-
-                         propChangValueFunction={(key, value) => {
-                           add(key, value);
-                         }}
-      />);
-
-
+      arr.push(value);
     });
-
     return arr
   }
 
@@ -119,108 +86,81 @@ const ProjectCrew = (props) => {
 
 
   return (
-    <div>
-      <Card
-        elevation={2}
-        style={{padding: 20, margin: 10, backgroundColor: 'rgb(255, 254, 247)'}}
-      >
-        <div className="block">
-          <div className="text-2xl font-bold">
-            프로젝트 등록
-          </div>
-          <div className='my-2.5'>
-            <Divider/>
-          </div>
-          <Box p={1}>
-            <TextField
-              required
-              label="프로젝트명"
-              variant="standard"
-              style={{marginTop: 10, width: '40%'}}
-              value={projectName}
-              onChange={(e) => setProjectName(e.target.value)}
-            />
-            <br/>
-            <TextField
-              label="프로젝트 내용"
-              multiline
-              rows={10}
-              variant="standard"
-              style={{marginTop: 10, width: '100%'}}
-              value={projectContent}
-              onChange={(e) => setProjectContent(e.target.value)}
-            />
-            <br/>
-            <br/>
-            <Box>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label="시작 일자"
-                  value={startDate}
-                  locale={ko}
-                  inputFormat={"YYYY년 MM월 DD일"}
-                  mask={"____년 __월 __일"}
-                  onChange={(newValue) => setStartDate(newValue)}
-                  renderInput={(params) => <TextField_DatePicker {...params} />}
-                />
-              </LocalizationProvider>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  label="종료 일자"
-                  value={endDate}
-                  locale={ko}
-                  inputFormat={"YYYY년 MM월 DD일"}
-                  mask={"____년 __월 __일"}
-                  onChange={(newValue) => {
-                    if (newValue < startDate) {
-                      alert("123");
-                    } else {
-                      setEndDate(newValue);
-                    }
-                  }}
-                  renderInput={(params) => <TextField_DatePicker {...params}
-                                                                 sx={{ml: 2}}
-                                                                 error={endDate < startDate}/>}
-                />
-              </LocalizationProvider>
-            </Box>
-            <br/>
-
-            <Button onClick={(e) => {
-              setIndex(index + 1);
-              console.log("ProjectCrew ", index);
-              let initValue = {
-                memberCount: 1,
-                role: "PL",
-                startDate: "",
-                endDate: ""
-              };
-
-              add(index, initValue);
-              console.log("ProjectCrew members", members);
+    <div className="grid grid-rows-2 grid-cols-2">
+      <div>
+        <Card
+          elevation={2}
+          style={{
+            padding: 20,
+            margin: 10,
+            backgroundColor: 'rgb(255, 254, 247)'
+          }}
+        >
+          <div className="block">
+            <div className="text-2xl font-bold">
+              프로젝트 등록
+            </div>
+            <div className='my-2.5'>
+              <Divider/>
+            </div>
+            <Box p={1}>
+              <TextField
+                required
+                label="프로젝트명"
+                variant="standard"
+                style={{marginTop: 10, width: '40%'}}
+                value={projectName}
+                onChange={(e) => setProjectName(e.target.value)}
+              />
+              <br/>
+              <TextField
+                label="프로젝트 내용"
+                multiline
+                rows={10}
+                variant="standard"
+                style={{marginTop: 10, width: '100%'}}
+                value={projectContent}
+                onChange={(e) => setProjectContent(e.target.value)}
+              />
+              <br/>
+              <br/>
+              <Box>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="시작 일자"
+                    value={startDate}
+                    locale={ko}
+                    inputFormat={"YYYY년 MM월 DD일"}
+                    mask={"____년 __월 __일"}
+                    onChange={(newValue) => setStartDate(newValue)}
+                    renderInput={(params) => <TextField_DatePicker
+                      size="small" {...params} />}
+                  />
+                </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="종료 일자"
+                    value={endDate}
+                    locale={ko}
+                    inputFormat={"YYYY년 MM월 DD일"}
+                    mask={"____년 __월 __일"}
+                    onChange={(newValue) => {
+                      if (newValue < startDate) {
+                        alert("123");
+                      } else {
+                        setEndDate(newValue);
+                      }
+                    }}
+                    renderInput={(params) => <TextField_DatePicker {...params}
+                                                                   size="small"
+                                                                   sx={{ml: 2}}
+                                                                   error={endDate < startDate}/>}
+                  />
+                </LocalizationProvider>
+              </Box>
 
 
-              // add(index, <JobOffer akey={index}
-              //                      propDeleteFunction={
-              //                        (akey) => {
-              //                          console.log("ProjectCrew del ", akey);
-              //                          del(akey);
-              //                        }}
-              //
-              //                      propsRoleSelectFunction={
-              //                        (akey, object) => {
-              //                          members.forEach((value, key) => {
-              //                            console.log("forEach");
-              //                            console.log(value);
-              //                          });
-              //
-              //                        }
-              //                      }
-              //
-              // />);
-            }}>추가</Button>
-
-            {/*
+              {/*
             <Box className="flex">
 
               <TextField
@@ -310,36 +250,66 @@ const ProjectCrew = (props) => {
               {memberList()}
             </div>
             */}
-            {isVisibleRole && memberList()}
-            {!isVisibleRole && memberList()}
-            <Box sx={{display: "flex", justifyContent: "right"}}>
 
-              <Button
-                type="submit"
-                className='w-96'
-                fontSize={'16px'}
-                variant='outlined'
-                size='small'
-                style={{
-                  color: "black",
-                  marginTop: 10,
-                  marginBottom: 10,
-                  marginRight: 10,
-                  borderColor: 'black',
-                  fontSize: '1rem',
-                  width: '5rem'
-                }}
-                //onClick={(e) => }
-              >
-                등록
-              </Button>
+              <Box sx={{display: "flex", justifyContent: "right"}}>
+
+                <Button
+                  type="submit"
+                  className='w-96'
+                  fontSize={'16px'}
+                  variant='outlined'
+                  size='small'
+                  style={{
+                    color: "black",
+                    marginTop: 10,
+                    marginBottom: 10,
+                    marginRight: 10,
+                    borderColor: 'black',
+                    fontSize: '1rem',
+                    width: '5rem'
+                  }}
+                  //onClick={(e) => }
+                >
+                  등록
+                </Button>
+              </Box>
+
             </Box>
 
-          </Box>
 
+          </div>
+        </Card>
+      </div>
+      <div>
+        <Card
+          elevation={2}
+          style={{
+            padding: 20,
+            margin: 10,
+            backgroundColor: 'rgb(255, 254, 247)'
+          }}
+        >
+          <Button onClick={(e) => {
+            setIndex(index + 1);
+            console.log("ProjectCrew ", index);
+            add(index, <div key={index}><JobOffer akey={index}
+                                                  propDeleteFunction={
+                                                    (akey) => {
+                                                      console.log("ProjectCrew del ", akey);
+                                                      del(akey);
+                                                    }}
 
-        </div>
-      </Card>
+            />
+            </div>);
+          }}>추가</Button>
+
+          <div className={'h-screen overflow-y-auto '}>
+            {memberList()}
+          </div>
+
+        </Card>
+
+      </div>
     </div>
   );
 }

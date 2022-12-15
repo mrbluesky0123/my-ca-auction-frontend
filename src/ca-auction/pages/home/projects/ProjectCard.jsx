@@ -10,16 +10,20 @@ import PositionTag from "./PositionTag";
 
 const cardWidth = '350px';
 
-const ProjectCard = ({isMyProject, id, title, writer, status, regDate, content, positionList, cardSelectHandler}) => {
+const ProjectCard = ({isMyProject, isSelected, id, title, writer, status, regDate, content, positionList, cardSelectHandler}) => {
   const theme = useTheme()
   const getCardStyleByStatus = () => {
     let color = {}
     switch (status) {
       case "inProgress":
-        color = {backgroundColor: "#ffffff", backgroundColorHover: "rgba(255,255,188,0.34)"};
+        isSelected?
+          color = {backgroundColor: "#DBFFFB", backgroundColorHover: "#C9FFF9"} :
+          color = {backgroundColor: "#ffffff", backgroundColorHover: "rgba(255,255,188,0.34)"};
         break;
       case "complete":
-        color = {backgroundColor: "#eaeaea", backgroundColorHover: "#e5e5e5"};
+        isSelected?
+          color = {backgroundColor: "#BCD0CD", backgroundColorHover: "#C4D2D0"} :
+          color = {backgroundColor: "#eaeaea", backgroundColorHover: "#e5e5e5"};
         break;
       default:
         color = {backgroundColor: "#ffffff", backgroundColorHover: "rgba(255,255,188,0.34)"};
