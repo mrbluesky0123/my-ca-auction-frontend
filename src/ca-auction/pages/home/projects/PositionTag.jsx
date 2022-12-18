@@ -48,7 +48,7 @@ const PositionTag = ({positionName, vacancy}) => {
         color: tagColor.textColor,
       }}>
         <Typography sx={{fontSize: '13px'}} pb={5}>
-          {'#' + positionName}
+          {positionName}
         </Typography>
       </Box>
     </Badge>

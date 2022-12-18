@@ -7,6 +7,7 @@ import Card from "@mui/material/Card";
 import * as React from "react";
 import {styled, useTheme} from "@mui/material/styles";
 import PositionTag from "./PositionTag";
+import {Link} from "react-router-dom";
 
 const cardWidth = '350px';
 
@@ -57,8 +58,10 @@ const ProjectCard = ({isMyProject, isSelected, id, title, writer, status, regDat
   const ProjectCard = styled((props) => (
     <Card
       sx={{
-        margin: '10px',
         width: cardWidth,
+        height: '272px',
+        marginX: '10px',
+        // marginY: '10px',
         backgroundColor: getCardStyleByStatus().backgroundColor,
         "&:hover": {
           backgroundColor: getCardStyleByStatus().backgroundColorHover,
@@ -66,7 +69,9 @@ const ProjectCard = ({isMyProject, isSelected, id, title, writer, status, regDat
         }
       }}
       elevation={1}
-      onClick={() => onCardClick()} {...props} />
+      onClick={() => onCardClick()}
+      {...props}
+    />
   ))(({theme}) => ({
     border: isMyProject ? `2px solid black` : `1px solid ${theme.palette.divider}`,
     backgroundColor: getCardStyleByStatus()
@@ -103,7 +108,7 @@ const ProjectCard = ({isMyProject, isSelected, id, title, writer, status, regDat
   return (
 
     <ProjectCard>
-      <CardContent sx={{minHeight: '188px'}}>
+      <CardContent sx={{minHeight: '210px'}}>
         <div className='flex flex-wrap align-sub'>
           <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
             {regDate}
@@ -111,7 +116,7 @@ const ProjectCard = ({isMyProject, isSelected, id, title, writer, status, regDat
           {isMyProject? myProject() : null}
         </div>
         <Typography sx={{fontWeight: 'bold'}} variant="h6" component="div">
-          {title}
+          <Link to="/main/project/1">{title}</Link>
         </Typography>
         <Typography sx={{fontSize: 12, mb: 1.5}} color="text.secondary">
           {writer}{bull}{getStatusDescriptionByStatus()}

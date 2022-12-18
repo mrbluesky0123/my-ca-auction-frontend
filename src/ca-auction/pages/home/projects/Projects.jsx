@@ -5,40 +5,47 @@ import ProjectCard from "./ProjectCard";
 import {Link} from 'react-scroll'
 import {Box} from "@mui/material";
 import ProjectDetail from "../projectdetail/ProjectDetail";
+import {Route, Router, Routes, useNavigate} from "react-router-dom";
+import HomeBody from "../HomeBody";
+import ProjectCrew from "../../projectcrew/ProjectCrew";
+import MyProject from "../../my-project";
+import GanttChartExample from "../../GanttChartExample";
 
 
 const Projects = ({projectId}) => {
+  const navigate = useNavigate();
   const [selectedProjectID, setSelectedProjectID] = useState(null)
-  const [index, setIndex] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(null);
   const focusedProjectRef = useRef([]);
   const divRef = useRef();
   // const focusedProjectRef2 = useRef();
 
   const cardSelectHandler = (id) => {
-    setIndex(id);
+    setCurrentIndex(id);
     if (selectedProjectID === id) {
-      setSelectedProjectID(null)
+      setSelectedProjectID(null);
+      navigate(`/main/project/`);
     } else {
-      setSelectedProjectID(id)
+      setSelectedProjectID(id);
+      navigate(`/main/project/${id}`);
     }
   }
 
   useEffect(() => {
-    console.log("#####", projectId)
-    if(projectId !== null || projectId !== undefined) {
-      setIndex(projectId);
-      setSelectedProjectID(projectId);
-      // cardSelectHandler(projectId)
+    console.log("###11##", projectId)
+    if (projectId !== null && projectId !== undefined) {
+      console.log("###################", projectId)
+      setCurrentIndex(parseInt(projectId));
+      setSelectedProjectID(parseInt(projectId));
     }
-  }, [projectId])
+  }, [])
 
   useEffect(() => {
-    if(index !== null) {
-      console.log("########", focusedProjectRef.current);
-      // focusedProjectRef.current[index].scrollIntoView({ behavior: 'smooth'});
-      divRef.current.scroll({top: (index-1) * 262, behavior: 'smooth'})
+    console.log("###22##", projectId)
+    if (currentIndex !== null) {
+      divRef.current.scroll({top: (currentIndex - 1) * 284})
     }
-  }, [index])
+  }, [currentIndex])
 
   return (
     <div className={'h-screen m-[10px] overscroll-contain overflow-hidden'}>
@@ -54,48 +61,48 @@ const Projects = ({projectId}) => {
       </div>
       <div className={'h-screen flex overflow-y-auto'}>
         <div ref={divRef} className={
-          selectedProjectID === null ? 'flex flex-wrap' : 'flex flex-wrap w-[390px] overflow-y-auto'
+          selectedProjectID === null ? 'flex flex-wrap content-start' : 'flex flex-wrap w-[390px] overflow-y-auto'
         }>
           {/*    <SimpleGrid spacing={5} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>*/}
-          <div id={'1'} ref={(el) => (focusedProjectRef.current[1] = el)}>
-            <ProjectCard
-              isMyProject={false}
-              isSelected={selectedProjectID === 1 ? true : false}
-              id={1}
-              title={"GAIA 고도화 프로젝트"}
-              writer={"radi.yang"}
-              status={"inProgress"}
-              regDate={"2022/12/09"}
-              content={"가이아 고도화를 위한 프로젝트입니다."}
-              positionList={[{name: 'backend', vacancy: 4}, {
-                name: 'frontend',
-                vacancy: 2
-              }, {name: 'PL', vacancy: 1}]}
-              cardSelectHandler={() => cardSelectHandler(1)}
-            />
-          </div>
-          {/*</SimpleGrid>*/}
-          <Link to={'4'} spy={true} smooth={true}>
-            <div id={'2'} ref={(el) => (focusedProjectRef.current[2] = el)}>
-                <ProjectCard
-                  isMyProject={true}
-                  isSelected={selectedProjectID === 2 ? true : false}
-                  id={2}
-                  title={"공공마이데이터 시스템 구축"}
-                  writer={"keedi.kim"}
-                  status={"complete"}
-                  regDate={"2022/12/10"}
-                  content={"공공마이데이터는 신용정보원을 호출하여 은행 업무에 쓰이는 여러 문서들을 발급받을 수 있도록 하는 시스템입니다."}
-                  positionList={[{name: 'backend', vacancy: 2}, {
-                    name: 'PL',
-                    vacancy: 1
-                  }]}
-                  cardSelectHandler={() => cardSelectHandler(2)}
-
-                />
+          <Link to="/main/project/1">
+            <div className={'h-[284px]'}>
+              <ProjectCard
+                isMyProject={false}
+                isSelected={selectedProjectID === 1 ? true : false}
+                id={1}
+                title={"GAIA 고도화 프로젝트"}
+                writer={"radi.yang"}
+                status={"inProgress"}
+                regDate={"2022/12/09"}
+                content={"가이아 고도화를 위한 프로젝트입니다."}
+                positionList={[{name: 'backend', vacancy: 4}, {
+                  name: 'frontend',
+                  vacancy: 2
+                }, {name: 'PL', vacancy: 1}]}
+                cardSelectHandler={() => cardSelectHandler(1)}
+              />
             </div>
           </Link>
-          <div id={'3'} ref={(el) => (focusedProjectRef.current[3] = el)}>
+          {/*</SimpleGrid>*/}
+          <div className={'h-[284px]'} >
+            <ProjectCard
+              isMyProject={true}
+              isSelected={selectedProjectID === 2 ? true : false}
+              id={2}
+              title={"공공마이데이터 시스템 구축"}
+              writer={"keedi.kim"}
+              status={"complete"}
+              regDate={"2022/12/10"}
+              content={"공공마이데이터는 신용정보원을 호출하여 은행 업무에 쓰이는 여러 문서들을 발급받을 수 있도록 하는 시스템입니다."}
+              positionList={[{name: 'backend', vacancy: 2}, {
+                name: 'PL',
+                vacancy: 1
+              }]}
+              cardSelectHandler={() => cardSelectHandler(2)}
+
+            />
+          </div>
+          <div className={'h-[284px]'} >
             <ProjectCard
               isMyProject={false}
               isSelected={selectedProjectID === 3 ? true : false}
@@ -113,7 +120,7 @@ const Projects = ({projectId}) => {
               ref={el => (focusedProjectRef.current[3] = el)}
             />
           </div>
-          <div id='4' ref={(el) => (focusedProjectRef.current[4] = el)}>
+          <div className={'h-[284px]'} >
             <ProjectCard
               isMyProject={false}
               isSelected={selectedProjectID === 4 ? true : false}
@@ -131,7 +138,7 @@ const Projects = ({projectId}) => {
               ref={el => (focusedProjectRef.current[4] = el)}
             />
           </div>
-          <div id={'5'} ref={(el) => (focusedProjectRef.current[5] = el)}>
+          <div className={'h-[284px]'} >
             <ProjectCard
               isMyProject={false}
               isSelected={selectedProjectID === 5 ? true : false}
@@ -149,7 +156,7 @@ const Projects = ({projectId}) => {
               ref={el => (focusedProjectRef.current[5] = el)}
             />
           </div>
-          <div id={'6'} ref={(el) => (focusedProjectRef.current[6] = el)}>
+          <div className={'h-[284px]'} >
             <ProjectCard
               isMyProject={true}
               isSelected={selectedProjectID === 6 ? true : false}
@@ -167,7 +174,7 @@ const Projects = ({projectId}) => {
               ref={el => (focusedProjectRef.current[6] = el)}
             />
           </div>
-          <div id={'7'} ref={(el) => (focusedProjectRef.current[7] = el)}>
+          <div className={'h-[284px]'} >
             <ProjectCard
               isMyProject={false}
               isSelected={selectedProjectID === 7 ? true : false}
@@ -185,7 +192,7 @@ const Projects = ({projectId}) => {
               ref={el => (focusedProjectRef.current[7] = el)}
             />
           </div>
-          <div id={'8'} ref={(el) => (focusedProjectRef.current[8] = el)}>
+          <div className={'h-[284px]'} >
             <ProjectCard
               isMyProject={false}
               isSelected={selectedProjectID === 8 ? true : false}
@@ -203,7 +210,7 @@ const Projects = ({projectId}) => {
               ref={el => (focusedProjectRef.current[8] = el)}
             />
           </div>
-          <div id={'9'} ref={(el) => (focusedProjectRef.current[9] = el)}>
+          <div className={'h-[284px]'} >
             <ProjectCard
               isMyProject={false}
               isSelected={selectedProjectID === 9 ? true : false}
@@ -221,7 +228,7 @@ const Projects = ({projectId}) => {
               ref={el => (focusedProjectRef.current[9] = el)}
             />
           </div>
-          <div id={'10'} ref={(el) => (focusedProjectRef.current[10] = el)}>
+          <div className={'h-[284px]'} >
             <ProjectCard
               isMyProject={false}
               isSelected={selectedProjectID === 10 ? true : false}
@@ -239,7 +246,7 @@ const Projects = ({projectId}) => {
               ref={el => (focusedProjectRef.current[10] = el)}
             />
           </div>
-          <div id={'11'} ref={(el) => (focusedProjectRef.current[11] = el)}>
+          <div className={'h-[284px]'} >
             <ProjectCard
               isMyProject={false}
               isSelected={selectedProjectID === 11 ? true : false}
@@ -257,7 +264,7 @@ const Projects = ({projectId}) => {
               ref={el => (focusedProjectRef.current[11] = el)}
             />
           </div>
-          <div id={'12'} ref={(el) => (focusedProjectRef.current[12] = el)}>
+          <div className={'h-[284px]'} >
             <ProjectCard
               isMyProject={false}
               isSelected={selectedProjectID === 12 ? true : false}
@@ -275,7 +282,7 @@ const Projects = ({projectId}) => {
               ref={el => (focusedProjectRef.current[13] = el)}
             />
           </div>
-          <div id={'13'} ref={(el) => (focusedProjectRef.current[13] = el)}>
+          <div className={'h-[284px]'} >
             <ProjectCard
               isMyProject={false}
               isSelected={selectedProjectID === 13 ? true : false}
@@ -284,7 +291,7 @@ const Projects = ({projectId}) => {
               writer={"ray.nk"}
               status={"inProgress"}
               regDate={"2022/12/10"}
-              content={"공공마이데이터의 admin 화면 구축을 위한 프로젝트입니다."}
+              content={"공공마이데이터의 admin 화면 구축11을 위한 프로젝트입니다."}
               positionList={[{name: 'backend', vacancy: 2}, {
                 name: 'frontend',
                 vacancy: 1
@@ -293,13 +300,17 @@ const Projects = ({projectId}) => {
               ref={el => (focusedProjectRef.current[14] = el)}
             />
           </div>
+
           <Box sx={{height: '500px'}}></Box>
           {/*</SimpleGrid>*/}
         </div>
+        <div>
         {
-          selectedProjectID === null ? null :
-            <ProjectDetail projectId={selectedProjectID} />
+          selectedProjectID !== null && selectedProjectID !== undefined ?
+            <ProjectDetail selectedProjectId={selectedProjectID}/>
+            : null
         }
+        </div>
 
       </div>
     </div>

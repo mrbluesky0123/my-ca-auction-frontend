@@ -95,11 +95,11 @@ const Home = () => {
           <Menu drawerToggle={handleMenuOpenClose} drawerOpen={isOpened}/>
           <MainDiv theme={theme}>
             <Routes>
-              <Route path="/*" element={<HomeBody />}/>
+              <Route exact path="/project/:projectId" element={<HomeBody />} />
+              <Route path="/project/*" element={<HomeBody />}/>
               <Route path="/projectcrew" element={<ProjectCrew/>}/>
               <Route path="/newproject" element={<MyProject/>}/>
               <Route path="/aaa" element={<GanttChartExample/>}/>
-              <Route exact path="/project/:projectId" element={<HomeBody />} />
             </Routes>
           </MainDiv>
         </div>

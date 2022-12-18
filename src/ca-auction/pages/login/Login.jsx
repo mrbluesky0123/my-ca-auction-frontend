@@ -15,7 +15,7 @@ const Login = (props) => {
     },
   }));
   const onLoginButtonClick = () => {
-    return navigate('/main')
+    return navigate('/main/project/')
   }
 
   return (
