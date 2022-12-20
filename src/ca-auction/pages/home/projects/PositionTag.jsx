@@ -3,6 +3,7 @@ import Typography from "@mui/material/Typography";
 import Badge from '@mui/material/Badge';
 import * as React from "react";
 import { useTheme } from '@mui/material/styles';
+import {blue, cyan, green, lightGreen, orange, purple, red} from "@mui/material/colors";
 
 
 const PositionTag = ({positionName, vacancy}) => {
@@ -10,17 +11,17 @@ const PositionTag = ({positionName, vacancy}) => {
   const getPositionTagColorStyle = () => {
     switch (positionName) {
       case 'frontend':
-        return {backgroundColor: '#ffe0de', textColor: '#ba0b00'}
+        return {backgroundColor: red[100], textColor: red[800]}
       case 'backend':
-        return {backgroundColor: '#e7ffe0', textColor: '#1e8000'}
+        return {backgroundColor: lightGreen[100], textColor: lightGreen[900]}
       case 'PL':
-        return {backgroundColor: '#e6e7ff', textColor: '#0006a6'}
+        return {backgroundColor: purple[100], textColor: purple[900]}
       case '계정계':
-        return {backgroundColor: '#fee8ff', textColor: '#6d0073'}
+        return {backgroundColor: cyan[100], textColor: cyan[900]}
       case '기획':
-        return {backgroundColor: '#ffdfa8', textColor: '#cc5d02'}
+        return {backgroundColor: orange[100], textColor: orange[900]}
       default:
-        return {backgroundColor: '#d9fff3', textColor: '#000000'}
+        return {backgroundColor: blue[100], textColor: blue[900]}
     }
   }
   const tagColor = getPositionTagColorStyle()
@@ -28,9 +29,9 @@ const PositionTag = ({positionName, vacancy}) => {
   return (
     <Badge
       badgeContent={vacancy}
-      color={'primary'}
+      color={'secondary'}
       sx={{
-        "& .MuiBadge-badge": { fontSize: 11, height: 14, minWidth: 12, border: `0.001rem solid ${theme.palette.divider}`,},
+        "& .MuiBadge-badge": { fontSize: 11, minWidth: 12, border: `0.001rem solid ${theme.palette.divider}`,},
         marginX: '7px',
         marginY: '3px',
 

@@ -1,15 +1,26 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import {ko} from "date-fns/esm/locale";
-import {Box, Button, Card, Divider, TextField} from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  Divider,
+  TextField,
+  Avatar,
+  Badge
+} from "@mui/material";
+
+import {deepOrange, deepPurple} from '@mui/material/colors';
 
 import TextField_DatePicker from '@mui/material/TextField';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import JobOffer from "./JobOffer";
-
-const ref = React.createRef();
+import Tag from "./Tag";
+import GroupIcon from '@mui/icons-material/Group';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
 
 
 const ProjectCrew = (props) => {
@@ -17,52 +28,95 @@ const ProjectCrew = (props) => {
   const [projectContent, setProjectContent] = useState(""); //프로젝트 내용
   const [startDate, setStartDate] = useState(new Date()); //시작일자
   const [endDate, setEndDate] = useState(new Date()); //종료일자
-  const [role, setRole] = useState("PL");  //투입인원 롤
+
   const [members, setMembers] = useState(new Map()); //투입인원의 롤 및 인원수 저장을 위한 맵
-  const [memberCount, setMemberCount] = useState("1"); //투입인원 수
-  const [isVisibleRole, setIsVisibleRole] = useState(false); //추가입력 역할 TextField
-  const [totalMembers, setTotalMembers] = useState(0); //총 투입인원 수
   const [index, setIndex] = useState(0);
 
+  const [summary, setSummary] = useState(new Map()); //투입인원의 롤 및 인원수 저장을 위한 맵
+
+  function stringToColor(string) {
+    let hash = 0;
+    let i;
+
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let color = '#';
+
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    /* eslint-enable no-bitwise */
+
+    return color;
+  }
+
+
   useEffect(() => {
-    console.log(members);
-    var total = 0;
-
-    members.forEach((value, key) => {
-      total = total + parseInt(value);
-    });
-
-    setTotalMembers(total);
-
-  }, [members]);
-
+      // console.log("summary", summary);
+    }, [summary]
+  )
   const memberList = () => {
-    var arr = [];
-    /*
-        members.forEach((value, key) => {
-          arr.push(<Button variant="outlined" color="error" sx={{
-            width: 120,
-            padding: 0.5,
-            margin: 0.5,
-            color: "orange",
-            borderColor: "orange",
-            borderRadius: 50,
-            textTransform: "none",
-            fontWeight: "bold"
-          }} onClick={() => deleteTagItem(key)}>{key}({value})</Button>)
-        });
-    */
+    const arr = [];
+
     members.forEach((value, key) => {
       arr.push(value);
     });
     return arr
   }
 
+  const summaryList = () => {
+    const arr = [];
+    const counter = {};
+
+    for (let value of summary.values()) {
+      if (value.role in counter) {
+        counter[value.role] = parseInt(counter[value.role]) + parseInt(value.count);
+      } else {
+        counter[value.role] = value.count;
+      }
+
+    }
+
+    Object.keys(counter).forEach(key => {
+        console.log(key);
+        arr.push(
+          // <Button sx={{textTransform: 'unset'}}> {/*{counter[key]}</Button>*/}
+          <div className={"p-1"}>
+            <Badge badgeContent={counter[key]} color="secondary">
+              <Avatar sx={{
+                bgcolor: stringToColor(key),
+                fontSize: 15
+              }}>{key.substring(0, 2)}</Avatar>
+            </Badge>
+          </div>
+        );
+      }
+    )
+
+    return arr
+  }
+
+  const addSummary = (key, value) => {
+    setSummary((prev) => new Map([...prev, [key, value]]));
+  };
+
+  const delSummary = (key) => {
+    setSummary((prev) => {
+      const newState = new Map(prev);
+      newState.delete(key);
+      return newState;
+    });
+  };
+
+
   /*맵을 사용하기 위한 기능 */
   const add = (key, value) => {
     setMembers((prev) => new Map([...prev, [key, value]]));
   };
-
 
   const upsert = (key, value) => {
     setMembers((prev) => new Map(prev).set(key, value));
@@ -86,25 +140,27 @@ const ProjectCrew = (props) => {
 
 
   return (
-    <div className="grid grid-rows-2 grid-cols-2">
+    <div className="grid grid-rows-1 grid-cols-3">
       <div>
         <Card
-          elevation={2}
+          elevation={0}
           style={{
             padding: 20,
             margin: 10,
-            backgroundColor: 'rgb(255, 254, 247)'
+            backgroundColor: 'rgb(255, 254, 247)',
+            height: "80vh"
           }}
         >
           <div className="block">
             <div className="text-2xl font-bold">
-              프로젝트 등록
+              프로젝트 등록<AccountTreeIcon/>
             </div>
             <div className='my-2.5'>
               <Divider/>
             </div>
             <Box p={1}>
               <TextField
+                size="small"
                 required
                 label="프로젝트명"
                 variant="standard"
@@ -114,6 +170,7 @@ const ProjectCrew = (props) => {
               />
               <br/>
               <TextField
+                size="small"
                 label="프로젝트 내용"
                 multiline
                 rows={10}
@@ -146,7 +203,7 @@ const ProjectCrew = (props) => {
                     mask={"____년 __월 __일"}
                     onChange={(newValue) => {
                       if (newValue < startDate) {
-                        alert("123");
+                        alert("종료일자를 확인해주세요. 시작일자보다 전일자는 안되요.");
                       } else {
                         setEndDate(newValue);
                       }
@@ -158,101 +215,12 @@ const ProjectCrew = (props) => {
                   />
                 </LocalizationProvider>
               </Box>
+              <div>
+                <Tag/>
+              </div>
 
-
-              {/*
-            <Box className="flex">
-
-              <TextField
-                id="filled-number"
-                label="투입인원"
-                type="number"
-                variant="standard"
-                inputProps={{inputMode: 'numeric', pattern: '[0-9]*'}}
-                value={memberCount}
-                onChange={(e) => {
-                  const min = 1;
-                  const max = 100;
-                  const value = Math.max(min, Math.min(max, Number(e.target.value)));
-                  setMemberCount(value)
-                }}
-
-              />
-
-              <FormControl sx={{m: 1, minWidth: 150}} size="small">
-                <InputLabel>역할</InputLabel>
-                <Select
-                  value={role}
-                  label="역할"
-                  onChange={(e) => {
-                    setRole(e.target.value);
-                    if (e.target.value === "직접입력") {
-                      setIsVisibleRole(true);
-                    } else {
-                      setIsVisibleRole(false);
-                    }
-                  }}
-                >
-                  <MenuItem value="직접입력">
-                    <em>(직접입력)</em>
-                  </MenuItem>
-                  <MenuItem value={'PL'}>PL</MenuItem>
-                  <MenuItem value={'Backend'}>Backend</MenuItem>
-                  <MenuItem value={'Frontend'}>Frontend</MenuItem>
-                  <MenuItem value={'계정계'}>계정계</MenuItem>
-                  <MenuItem value={'기획'}>기획</MenuItem>
-                </Select>
-              </FormControl>
-              {isVisibleRole && <TextField size='small' style={{
-                color: "black",
-                marginTop: 8,
-                marginRight: 8,
-                borderColor: 'black',
-                fontSize: '1rem'
-              }} value={role}
-                                           onChange={(e) => setRole(e.target.value)}></TextField>}
-              <Button
-                className='w-96'
-                fontSize={'16px'}
-                variant='outlined'
-                size='small'
-                style={{
-                  color: "black",
-                  marginTop: 10,
-                  marginBottom: 10,
-                  marginRight: 10,
-                  borderColor: 'black',
-                  fontSize: '1rem',
-                  width: '5rem'
-                }}
-                onClick={(e) => add(role, memberCount)}
-              >
-                추가
-              </Button>
-
-              <TextField
-                value={totalMembers}
-                label="투입인원총원"
-                id="filled-start-adornment"
-                sx={{width: '100px'}}
-                inputProps={{min: 0, style: {textAlign: 'right'}}}
-                InputProps={{
-                  endAdornment: <InputAdornment sx={{marginLeft: "3px"}}
-                                                position="start">명</InputAdornment>,
-                }}
-                variant="standard"
-              />
-
-            </Box>
-
-
-            <div className="min-h-[50px] items-center">
-              {memberList()}
-            </div>
-            */}
 
               <Box sx={{display: "flex", justifyContent: "right"}}>
-
                 <Button
                   type="submit"
                   className='w-96'
@@ -260,11 +228,9 @@ const ProjectCrew = (props) => {
                   variant='outlined'
                   size='small'
                   style={{
-                    color: "black",
                     marginTop: 10,
                     marginBottom: 10,
                     marginRight: 10,
-                    borderColor: 'black',
                     fontSize: '1rem',
                     width: '5rem'
                   }}
@@ -273,37 +239,70 @@ const ProjectCrew = (props) => {
                   등록
                 </Button>
               </Box>
-
             </Box>
-
-
           </div>
         </Card>
       </div>
-      <div>
+      <div className={"col-span-2"}>
         <Card
           elevation={2}
           style={{
             padding: 20,
             margin: 10,
-            backgroundColor: 'rgb(255, 254, 247)'
+            backgroundColor: 'rgb(255, 254, 247)',
+            height: "80vh"
           }}
         >
-          <Button onClick={(e) => {
-            setIndex(index + 1);
-            console.log("ProjectCrew ", index);
-            add(index, <div key={index}><JobOffer akey={index}
-                                                  propDeleteFunction={
-                                                    (akey) => {
-                                                      console.log("ProjectCrew del ", akey);
-                                                      del(akey);
-                                                    }}
+          <div className="text-2xl font-bold">
+            프로젝트 구인 등록 <GroupIcon/>
+          </div>
 
-            />
-            </div>);
-          }}>추가</Button>
+          <div className='my-2.5'>
+            <Divider/>
+          </div>
+          <div className={"flex"}>
+            <Button
+              type="submit"
+              className='w-96'
+              fontSize={'16px'}
+              variant='outlined'
+              size='small'
+              style={{
+                marginTop: 10,
+                marginBottom: 10,
+                marginRight: 10,
+                fontSize: '1rem',
+                width: '5rem'
+              }}
+              onClick={(e) => {
+                setIndex(index + 1);
+                add(index, <div key={index}><JobOffer akey={index}
+                                                      startDate={startDate}
+                                                      endDate={endDate}
+                                                      propDeleteFunction={
+                                                        (akey) => {
+                                                          // console.log("ProjectCrew del ", akey);
+                                                          delSummary(akey)
+                                                          del(akey);
+                                                        }}
 
-          <div className={'h-screen overflow-y-auto '}>
+                                                      propRoleAndCountAddFunction={
+                                                        (index, role, count) => {
+                                                          // console.log("propRoleAndCountFunction", index, role, count);
+                                                          let info = {
+                                                            role: role,
+                                                            count: count
+                                                          }
+                                                          addSummary(index, info);
+                                                        }
+                                                      }
+                />
+                </div>);
+              }}>추가</Button>
+            {summaryList()}
+          </div>
+
+          <div className={'h-[70vh] overflow-y-auto'}>
             {memberList()}
           </div>
 

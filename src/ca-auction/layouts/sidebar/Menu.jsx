@@ -69,7 +69,7 @@ const Menu = ({drawerOpen, drawerToggle, window}) => {
            flexShrink: {md: 0},
            width: matchUpMd ? drawerWidth : 'auto',
            marginTop: '50px',
-        }}
+         }}
          aria-label="mailbox folders">
       <Drawer
         container={container}

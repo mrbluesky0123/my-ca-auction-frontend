@@ -12,11 +12,11 @@ const Navbar = ({handleDrawerToggle, window}) => {
     return (
         <AppBar
           position="fixed"
-          elevation={3}
+          elevation={0}
           className='border-none bg-black'
           sx={{
-            backgroundColor: theme.palette.primary,
-            color: `black`,
+            backgroundColor: theme.palette.primary[900],
+            color: theme.palette.primary,
             height: appbarHeight
           }}
           >

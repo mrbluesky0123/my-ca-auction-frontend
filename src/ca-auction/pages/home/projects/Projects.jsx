@@ -48,24 +48,15 @@ const Projects = ({projectId}) => {
   }, [currentIndex])
 
   return (
-    <div className={'h-screen m-[10px] overscroll-contain overflow-hidden'}>
-      <div className={'overflow-hidden'}>
-        <Typography sx={{
-          fontWeight: 'bold',
-          marginLeft: '10px',
-          marginTop: '20px',
-          marginBottom: '20px'
-        }} variant='h4'>
-          Projects
-        </Typography>
-      </div>
-      <div className={'h-screen flex overflow-y-auto'}>
+    // <div className={'h-full m-[10px] overscroll-contain overflow-hidden'}>
+    <Box sx={{marginTop: '10px'}} component="main">
+      <div className={'h-full flex overflow-y-auto'}>
         <div ref={divRef} className={
-          selectedProjectID === null ? 'flex flex-wrap content-start' : 'flex flex-wrap w-[390px] overflow-y-auto'
+          selectedProjectID === null ? 'flex flex-wrap content-start' : 'flex flex-wrap w-[390px] h-[calc(100vh-50px)] overflow-y-auto'
         }>
           {/*    <SimpleGrid spacing={5} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>*/}
           <Link to="/main/project/1">
-            <div className={'h-[284px]'}>
+            <div className={'h-[284px] '}>
               <ProjectCard
                 isMyProject={false}
                 isSelected={selectedProjectID === 1 ? true : false}
@@ -304,16 +295,17 @@ const Projects = ({projectId}) => {
           <Box sx={{height: '500px'}}></Box>
           {/*</SimpleGrid>*/}
         </div>
-        <div>
-        {
-          selectedProjectID !== null && selectedProjectID !== undefined ?
-            <ProjectDetail selectedProjectId={selectedProjectID}/>
-            : null
-        }
-        </div>
 
+          {
+            selectedProjectID !== null && selectedProjectID !== undefined ?
+              <div className={'w-[calc(100%-390px)] h-[calc(100vh-60px)]'}>
+                <ProjectDetail selectedProjectId={selectedProjectID}/>
+              </div>
+              : null
+          }
       </div>
-    </div>
+    {/*</div>*/}
+    </Box>
   )
 }
 

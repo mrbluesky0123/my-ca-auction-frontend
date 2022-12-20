@@ -14,6 +14,7 @@ import {
 import {CssBaseline} from '@mui/material';
 import yellow from '@mui/material/colors/yellow'
 import MyProject from "../pages/my-project";
+import {green, indigo, pink, purple} from "@mui/material/colors";
 
 
 const darkTheme = createTheme({
@@ -22,6 +23,22 @@ const darkTheme = createTheme({
     primary: yellow,
   },
 });
+
+const customTheme = createTheme({
+  palette: {
+    primary: indigo,
+    secondary: pink
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 2090,
+    },
+  },
+})
 
 // const kakaobankTheme = createTheme({
 //   palette: {
@@ -38,7 +55,8 @@ const Home = () => {
     isOpened ? setOpened(false) : setOpened(true)
   }
   const MainDiv = styled('main', {
-    shouldForwardProp: (prop) => prop !== 'open'}
+      shouldForwardProp: (prop) => prop !== 'open'
+    }
   )(({theme}) => ({
     // ...theme.typography.mainContent,
     marginTop: 50,
@@ -88,22 +106,21 @@ const Home = () => {
 
   return (
     <>
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={customTheme}>
         <CssBaseline/>
         <Navbar handleDrawerToggle={handleMenuOpenClose}/>
-        <div className="flex flex-row overflow-hidden h-screen v-screen">
+        <div className="flex flex-row overflow-hidden">
           <Menu drawerToggle={handleMenuOpenClose} drawerOpen={isOpened}/>
           <MainDiv theme={theme}>
             <Routes>
-              <Route exact path="/project/:projectId" element={<HomeBody />} />
-              <Route path="/project/*" element={<HomeBody />}/>
+              <Route exact path="/project/:projectId" element={<HomeBody/>}/>
+              <Route path="/project/*" element={<HomeBody/>}/>
               <Route path="/projectcrew" element={<ProjectCrew/>}/>
               <Route path="/newproject" element={<MyProject/>}/>
               <Route path="/aaa" element={<GanttChartExample/>}/>
             </Routes>
           </MainDiv>
         </div>
-
       </ThemeProvider>
     </>
   )

@@ -8,23 +8,26 @@ import * as React from "react";
 import {styled, useTheme} from "@mui/material/styles";
 import PositionTag from "./PositionTag";
 import {Link} from "react-router-dom";
+import {blueGrey, grey} from "@mui/material/colors";
 
 const cardWidth = '350px';
 
 const ProjectCard = ({isMyProject, isSelected, id, title, writer, status, regDate, content, positionList, cardSelectHandler}) => {
   const theme = useTheme()
+  const primaryColor = theme.palette.primary
+  const secondaryColor = theme.palette.secondary
   const getCardStyleByStatus = () => {
     let color = {}
     switch (status) {
       case "inProgress":
         isSelected?
-          color = {backgroundColor: "#DBFFFB", backgroundColorHover: "#C9FFF9"} :
-          color = {backgroundColor: "#ffffff", backgroundColorHover: "rgba(255,255,188,0.34)"};
+          color = {backgroundColor: secondaryColor[50], backgroundColorHover: secondaryColor[100]} :
+          color = {backgroundColor: "#ffffff", backgroundColorHover: primaryColor['50']};
         break;
       case "complete":
         isSelected?
-          color = {backgroundColor: "#BCD0CD", backgroundColorHover: "#C4D2D0"} :
-          color = {backgroundColor: "#eaeaea", backgroundColorHover: "#e5e5e5"};
+          color = {backgroundColor: blueGrey[100], backgroundColorHover: blueGrey[200]} :
+          color = {backgroundColor: grey[200], backgroundColorHover: grey[300]};
         break;
       default:
         color = {backgroundColor: "#ffffff", backgroundColorHover: "rgba(255,255,188,0.34)"};
@@ -62,48 +65,49 @@ const ProjectCard = ({isMyProject, isSelected, id, title, writer, status, regDat
         height: '272px',
         marginX: '10px',
         // marginY: '10px',
+        // marginY: '10px',
         backgroundColor: getCardStyleByStatus().backgroundColor,
         "&:hover": {
           backgroundColor: getCardStyleByStatus().backgroundColorHover,
           cursor: "pointer"
         }
       }}
-      elevation={1}
+      elevation={2}
       onClick={() => onCardClick()}
       {...props}
     />
   ))(({theme}) => ({
-    border: isMyProject ? `2px solid black` : `1px solid ${theme.palette.divider}`,
+    border: `1px solid ${theme.palette.divider}`,
     backgroundColor: getCardStyleByStatus()
   }));
 
   const myProject = () => (
     <Box sx={{
-        paddingX: '2px',
-        // paddingTop: '1px',
-        // paddingBottom: '4px',
-        paddingY: '0px',
-        marginLeft: '10px',
-        marginTop: '2px',
-        minWidth: 'full',
-        height: '15px',
-        border: `0.001rem none ${theme.palette.divider}`,
-        // boxShadow: 1,
-        borderRadius: 1,
-        backgroundColor: '#fffd91',
-        color: '#1da200',
-        verticalAlign: 'center'
-      }}
+      paddingX: '2px',
+      // paddingTop: '1px',
+      // paddingBottom: '4px',
+      paddingY: '0px',
+      marginLeft: '10px',
+      marginTop: '2px',
+      minWidth: 'full',
+      height: '15px',
+      border: `0.001rem none ${theme.palette.divider}`,
+      // boxShadow: 1,
+      borderRadius: 1,
+      backgroundColor: '#fffd91',
+      color: '#1da200',
+      verticalAlign: 'center'
+    }}
     >
-        <Typography sx={{fontSize: '11px',}} >
-          <PersonIcon sx={{
-            fontSize: 'small',
-            marginRight: '1px',
-            marginBottom: '2px',
-          }} className={'mr-[5px]'}/>
-          {'Owner'}
-        </Typography>
-      </Box>
+      <Typography sx={{fontSize: '11px',}} >
+        <PersonIcon sx={{
+          fontSize: 'small',
+          marginRight: '1px',
+          marginBottom: '2px',
+        }} className={'mr-[5px]'}/>
+        {'Owner'}
+      </Typography>
+    </Box>
   )
   return (
 

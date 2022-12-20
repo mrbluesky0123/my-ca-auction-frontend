@@ -29,7 +29,7 @@ const Login = (props) => {
         <TextField className={"w-[100%]"} label="ID"/>
       </div>
       <div className="flex  row-span-2 content-center">
-          <ColorButton className={"w-[70%]"} onClick={() => onLoginButtonClick()} variant="contained">Login</ColorButton>
+        <ColorButton className={"w-[70%]"} onClick={() => onLoginButtonClick()} variant="contained">Login</ColorButton>
       </div>
       <div></div>
       <div></div>
