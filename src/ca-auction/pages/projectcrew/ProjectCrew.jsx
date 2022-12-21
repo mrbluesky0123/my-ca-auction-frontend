@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef,createContext, useState} from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import {ko} from "date-fns/esm/locale";
 import {
@@ -22,12 +22,14 @@ import Tag from "./Tag";
 import GroupIcon from '@mui/icons-material/Group';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 
+export const Context = createContext();
 
 const ProjectCrew = (props) => {
   const [projectName, setProjectName] = useState(""); //프로젝트 명
   const [projectContent, setProjectContent] = useState(""); //프로젝트 내용
   const [startDate, setStartDate] = useState(new Date()); //시작일자
   const [endDate, setEndDate] = useState(new Date()); //종료일자
+
 
   const [members, setMembers] = useState(new Map()); //투입인원의 롤 및 인원수 저장을 위한 맵
   const [index, setIndex] = useState(0);
@@ -140,176 +142,178 @@ const ProjectCrew = (props) => {
 
 
   return (
-    <div className="grid grid-rows-1 grid-cols-3">
-      <div>
-        <Card
-          elevation={0}
-          style={{
-            padding: 20,
-            margin: 10,
-            backgroundColor: 'rgb(255, 254, 247)',
-            height: "80vh"
-          }}
-        >
-          <div className="block">
-            <div className="text-2xl font-bold">
-              프로젝트 등록<AccountTreeIcon/>
+    <Context.Provider value={{projectName}}>
+      <div className="grid grid-rows-1 grid-cols-3">
+        <div>
+          <Card
+            elevation={0}
+            style={{
+              padding: 20,
+              margin: 10,
+              backgroundColor: 'rgb(255, 254, 247)',
+              height: "80vh"
+            }}
+          >
+            <div className="block">
+              <div className="text-2xl font-bold">
+                프로젝트 등록<AccountTreeIcon/>
+              </div>
+              <div className='my-2.5'>
+                <Divider/>
+              </div>
+              <Box p={1}>
+                <TextField
+                  size="small"
+                  required
+                  label="프로젝트명"
+                  variant="standard"
+                  style={{marginTop: 10, width: '40%'}}
+                  value={projectName}
+                  onChange={(e) => setProjectName(e.target.value)}
+                />
+                <br/>
+                <TextField
+                  size="small"
+                  label="프로젝트 내용"
+                  multiline
+                  rows={10}
+                  variant="standard"
+                  style={{marginTop: 10, width: '100%'}}
+                  value={projectContent}
+                  onChange={(e) => setProjectContent(e.target.value)}
+                />
+                <br/>
+                <br/>
+                <Box>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      label="시작 일자"
+                      value={startDate}
+                      locale={ko}
+                      inputFormat={"YYYY년 MM월 DD일"}
+                      mask={"____년 __월 __일"}
+                      onChange={(newValue) => setStartDate(newValue)}
+                      renderInput={(params) => <TextField_DatePicker
+                        size="small" {...params} />}
+                    />
+                  </LocalizationProvider>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      label="종료 일자"
+                      value={endDate}
+                      locale={ko}
+                      inputFormat={"YYYY년 MM월 DD일"}
+                      mask={"____년 __월 __일"}
+                      onChange={(newValue) => {
+                        if (newValue < startDate) {
+                          alert("종료일자를 확인해주세요. 시작일자보다 전일자는 안되요.");
+                        } else {
+                          setEndDate(newValue);
+                        }
+                      }}
+                      renderInput={(params) => <TextField_DatePicker {...params}
+                                                                     size="small"
+                                                                     sx={{ml: 2}}
+                                                                     error={endDate < startDate}/>}
+                    />
+                  </LocalizationProvider>
+                </Box>
+                <div>
+                  <Tag/>
+                </div>
+
+
+                <Box sx={{display: "flex", justifyContent: "right"}}>
+                  <Button
+                    type="submit"
+                    className='w-96'
+                    fontSize={'16px'}
+                    variant='outlined'
+                    size='small'
+                    style={{
+                      marginTop: 10,
+                      marginBottom: 10,
+                      marginRight: 10,
+                      fontSize: '1rem',
+                      width: '5rem'
+                    }}
+                    //onClick={(e) => }
+                  >
+                    등록
+                  </Button>
+                </Box>
+              </Box>
             </div>
+          </Card>
+        </div>
+        <div className={"col-span-2"}>
+          <Card
+            elevation={2}
+            style={{
+              padding: 20,
+              margin: 10,
+              backgroundColor: 'rgb(255, 254, 247)',
+              height: "80vh"
+            }}
+          >
+            <div className="text-2xl font-bold">
+              프로젝트 구인 등록 <GroupIcon/>
+            </div>
+
             <div className='my-2.5'>
               <Divider/>
             </div>
-            <Box p={1}>
-              <TextField
-                size="small"
-                required
-                label="프로젝트명"
-                variant="standard"
-                style={{marginTop: 10, width: '40%'}}
-                value={projectName}
-                onChange={(e) => setProjectName(e.target.value)}
-              />
-              <br/>
-              <TextField
-                size="small"
-                label="프로젝트 내용"
-                multiline
-                rows={10}
-                variant="standard"
-                style={{marginTop: 10, width: '100%'}}
-                value={projectContent}
-                onChange={(e) => setProjectContent(e.target.value)}
-              />
-              <br/>
-              <br/>
-              <Box>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="시작 일자"
-                    value={startDate}
-                    locale={ko}
-                    inputFormat={"YYYY년 MM월 DD일"}
-                    mask={"____년 __월 __일"}
-                    onChange={(newValue) => setStartDate(newValue)}
-                    renderInput={(params) => <TextField_DatePicker
-                      size="small" {...params} />}
-                  />
-                </LocalizationProvider>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="종료 일자"
-                    value={endDate}
-                    locale={ko}
-                    inputFormat={"YYYY년 MM월 DD일"}
-                    mask={"____년 __월 __일"}
-                    onChange={(newValue) => {
-                      if (newValue < startDate) {
-                        alert("종료일자를 확인해주세요. 시작일자보다 전일자는 안되요.");
-                      } else {
-                        setEndDate(newValue);
-                      }
-                    }}
-                    renderInput={(params) => <TextField_DatePicker {...params}
-                                                                   size="small"
-                                                                   sx={{ml: 2}}
-                                                                   error={endDate < startDate}/>}
-                  />
-                </LocalizationProvider>
-              </Box>
-              <div>
-                <Tag/>
-              </div>
+            <div className={"flex"}>
+              <Button
+                type="submit"
+                className='w-96'
+                fontSize={'16px'}
+                variant='outlined'
+                size='small'
+                style={{
+                  marginTop: 10,
+                  marginBottom: 10,
+                  marginRight: 10,
+                  fontSize: '1rem',
+                  width: '5rem'
+                }}
+                onClick={(e) => {
+                  setIndex(index + 1);
+                  add(index, <div key={index}><JobOffer akey={index}
+                                                        startDate={startDate}
+                                                        endDate={endDate}
+                                                        propDeleteFunction={
+                                                          (akey) => {
+                                                            // console.log("ProjectCrew del ", akey);
+                                                            delSummary(akey)
+                                                            del(akey);
+                                                          }}
 
-
-              <Box sx={{display: "flex", justifyContent: "right"}}>
-                <Button
-                  type="submit"
-                  className='w-96'
-                  fontSize={'16px'}
-                  variant='outlined'
-                  size='small'
-                  style={{
-                    marginTop: 10,
-                    marginBottom: 10,
-                    marginRight: 10,
-                    fontSize: '1rem',
-                    width: '5rem'
-                  }}
-                  //onClick={(e) => }
-                >
-                  등록
-                </Button>
-              </Box>
-            </Box>
-          </div>
-        </Card>
-      </div>
-      <div className={"col-span-2"}>
-        <Card
-          elevation={2}
-          style={{
-            padding: 20,
-            margin: 10,
-            backgroundColor: 'rgb(255, 254, 247)',
-            height: "80vh"
-          }}
-        >
-          <div className="text-2xl font-bold">
-            프로젝트 구인 등록 <GroupIcon/>
-          </div>
-
-          <div className='my-2.5'>
-            <Divider/>
-          </div>
-          <div className={"flex"}>
-            <Button
-              type="submit"
-              className='w-96'
-              fontSize={'16px'}
-              variant='outlined'
-              size='small'
-              style={{
-                marginTop: 10,
-                marginBottom: 10,
-                marginRight: 10,
-                fontSize: '1rem',
-                width: '5rem'
-              }}
-              onClick={(e) => {
-                setIndex(index + 1);
-                add(index, <div key={index}><JobOffer akey={index}
-                                                      startDate={startDate}
-                                                      endDate={endDate}
-                                                      propDeleteFunction={
-                                                        (akey) => {
-                                                          // console.log("ProjectCrew del ", akey);
-                                                          delSummary(akey)
-                                                          del(akey);
-                                                        }}
-
-                                                      propRoleAndCountAddFunction={
-                                                        (index, role, count) => {
-                                                          // console.log("propRoleAndCountFunction", index, role, count);
-                                                          let info = {
-                                                            role: role,
-                                                            count: count
+                                                        propRoleAndCountAddFunction={
+                                                          (index, role, count) => {
+                                                            // console.log("propRoleAndCountFunction", index, role, count);
+                                                            let info = {
+                                                              role: role,
+                                                              count: count
+                                                            }
+                                                            addSummary(index, info);
                                                           }
-                                                          addSummary(index, info);
                                                         }
-                                                      }
-                />
-                </div>);
-              }}>추가</Button>
-            {summaryList()}
-          </div>
+                  />
+                  </div>);
+                }}>추가</Button>
+              {summaryList()}
+            </div>
 
-          <div className={'h-[70vh] overflow-y-auto'}>
-            {memberList()}
-          </div>
+            <div className={'h-[70vh] overflow-y-auto'}>
+              {memberList()}
+            </div>
 
-        </Card>
+          </Card>
 
+        </div>
       </div>
-    </div>
+    </Context.Provider>
   );
 }
 

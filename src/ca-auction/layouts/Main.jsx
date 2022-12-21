@@ -117,7 +117,7 @@ const Home = () => {
               <Route path="/project/*" element={<HomeBody/>}/>
               <Route path="/projectcrew" element={<ProjectCrew/>}/>
               <Route path="/newproject" element={<MyProject/>}/>
-              <Route path="/aaa" element={<GanttChartExample/>}/>
+              <Route path="/my-project" element={<MyProject/>}/>
             </Routes>
           </MainDiv>
         </div>

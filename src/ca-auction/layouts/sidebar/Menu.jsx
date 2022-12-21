@@ -57,7 +57,7 @@ const Menu = ({drawerOpen, drawerToggle, window}) => {
       <Link to="/main/project"><MenuButton startIcon={<HomeIcon className={'mr-[10px]' } />}>프로젝트</MenuButton></Link>
       <Link to="/main/projectcrew"><MenuButton startIcon={<ComputerIcon className={'mr-[10px]'}/>}>프로젝트 등록</MenuButton></Link>
       <Link to="/main/newproject"><MenuButton startIcon={<DeveloperBoardIcon className={'mr-[10px]'}/>}>프로젝트 구직</MenuButton></Link>
-      <Link to="/main/"><MenuButton startIcon={<PersonIcon className={'mr-[10px]'} />}>내 프로젝트</MenuButton></Link>
+      <Link to="/main/my-project"><MenuButton startIcon={<PersonIcon className={'mr-[10px]'} />}>내 프로젝트</MenuButton></Link>
     </>
   );
 

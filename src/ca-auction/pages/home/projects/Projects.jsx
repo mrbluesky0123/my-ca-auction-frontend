@@ -8,7 +8,6 @@ import ProjectDetail from "../projectdetail/ProjectDetail";
 import {Route, Router, Routes, useNavigate} from "react-router-dom";
 import HomeBody from "../HomeBody";
 import ProjectCrew from "../../projectcrew/ProjectCrew";
-import MyProject from "../../my-project";
 import GanttChartExample from "../../GanttChartExample";
 
 

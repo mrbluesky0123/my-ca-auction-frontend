@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, createContext, useState, useContext} from "react";
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
@@ -18,6 +18,8 @@ import {ko} from "date-fns/esm/locale";
 import TextField_DatePicker from "@mui/material/TextField";
 import NumberOfApplicants from "./NumberOfApplicants";
 import {useTheme} from "@mui/material/styles";
+import {Context} from './ProjectCrew'
+
 
 
 const JobOffer = (props) => {
@@ -29,6 +31,7 @@ const JobOffer = (props) => {
   const [announcementCloseDate, setAnnouncementCloseDate] = useState(props.endDate); //투입종료일자
   const [isVisibleRole, setIsVisibleRole] = useState(false); //추가입력 역할 TextField
   const isLargeOrMore = useMediaQuery(theme.breakpoints.up('xl'));
+  const {projectName} = useContext(Context)
 
   useEffect(
     () => {
@@ -36,6 +39,9 @@ const JobOffer = (props) => {
     }, [memberCount, role]
   )
 
+  useEffect(() => {
+    console.log('!!!!!!!!!!! ', projectName);
+  }, [])
   return (
     <div>
       {isLargeOrMore ?
@@ -173,27 +179,29 @@ const JobOffer = (props) => {
         :
 
         <>
-          <div className="grid grid-rows-5 grid-cols-2 mt-2">
-            <div className={""}>
+          <div className="grid grid-rows-6 grid-cols-12 gap-0.5 mt-8">
+            <div className={"row-span-6 col-span-1 "}>
               <IconButton color="primary" aria-label="롤 삭제"
                           onClick={(e) => {
                             props.propDeleteFunction(props.akey);
                           }}>
                 <RemoveCircleOutlineIcon/>
               </IconButton>
+            </div>
+            <div className={"col-span-5"}>
               <TextField
                 label="공고제목"
                 size="small"
-                sx={{width: '90%'}}
+                sx={{width: '100%'}}
               ></TextField>
             </div>
-            <div className={"row-span-5"}>
+            <div className={"row-span-6 col-span-6 pl-5"}>
               <NumberOfApplicants/>
             </div>
-            <div>
+            <div className={"row-span-1 col-span-5"}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
-                  className={"w-full"}
+                  className={"w-1/2"}
                   label="공고 마감 일자"
                   value={announcementCloseDate}
                   locale={ko}
@@ -205,7 +213,7 @@ const JobOffer = (props) => {
                 />
               </LocalizationProvider>
             </div>
-            <div className={""}>
+            <div lassName={isVisibleRole ? "row-span-1 col-span-1" : "row-span-1 col-span-2"}>
               <TextField
                 id="filled-number"
                 label="투입인원"
@@ -214,7 +222,7 @@ const JobOffer = (props) => {
                 size="small"
                 inputProps={{inputMode: 'numeric', pattern: '[0-9]*'}}
                 value={memberCount}
-                sx={{marginLeft: 5, width: '17%'}}
+                // sx={{width: '25%'}}
                 onChange={(e) => {
                   const min = 0;
                   const max = 100;
@@ -222,7 +230,9 @@ const JobOffer = (props) => {
                   setMemberCount(value);
                 }}
               />
-              <FormControl sx={{m: 1, width: '30%'}} size="small">
+            </div>
+            <div className={isVisibleRole ? "row-span-1 col-span-2" : "row-span-1 col-span-4"}>
+              <FormControl sx={{p: 1, width: '100%'}} size="small">
                 <InputLabel>역할</InputLabel>
                 <Select
                   value={role}
@@ -247,20 +257,22 @@ const JobOffer = (props) => {
                   <MenuItem value={'기획'}>기획</MenuItem>
                 </Select>
               </FormControl>
-              {isVisibleRole &&
-                <TextField sx={{paddingTop: 1, width: '40%'}} size='small'
-                           label="직접입력"
-                           value={role}
-                           onChange={(e) => setRole(e.target.value)}></TextField>}
             </div>
-            <div className={"row-span-2"}>
+              {isVisibleRole &&
+                <div className={"row-span-1 col-span-2"}>
+                  <TextField sx={{p: 1, width: '100%'}} size='small'
+                             label="직접입력"
+                             value={role}
+                             onChange={(e) => setRole(e.target.value)}></TextField>
+                </div>}
+            <div className={"row-span-2 col-span-5"}>
               <TextField size={"small"}
                          multiline
                          rows={4}
-                         sx={{ml: "0px", width: '98%'}}
+                         sx={{ml: "0px", width: '100%'}}
                          label="모집내용"/>
             </div>
-            <div className={"pt-3"}>
+            <div className={"col-span-2"}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   label="투입 시작 일자"
@@ -271,16 +283,15 @@ const JobOffer = (props) => {
                   onChange={(newValue) => setStartDate(newValue)}
                   renderInput={(params) => <TextField_DatePicker
                     size="small" sx={{
-                    marginLeft: 5,
-                    marginRight: 1,
-                    width: '38%'
+                    width: '100%', mt: 1
                   }} {...params} />}
                 />
               </LocalizationProvider>
-
+            </div>
+            <div className={"col-span-2"}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
-                  label="뷁!!!"
+                  label="투입 종료 일자"
                   value={endDate}
                   locale={ko}
                   inputFormat={"YYYY년 MM월 DD일"}
@@ -292,11 +303,12 @@ const JobOffer = (props) => {
                       setEndDate(newValue);
                     }
                   }}
-                  renderInput={(params) => <TextField_DatePicker {...params}
-                                                                 sx={{ml: 2}}
-                                                                 size="small"
-                                                                 sx={{width: '38%'}}
-                                                                 error={endDate < startDate}/>}
+                  renderInput={(params) =>
+                    <TextField_DatePicker {...params}
+                                          size="small"
+                                          sx={{width: '100%', mt: 1}}
+                                          {...params}
+                                          error={endDate < startDate}/>}
                 />
               </LocalizationProvider>
             </div>
