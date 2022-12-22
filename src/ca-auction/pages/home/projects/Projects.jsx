@@ -10,7 +10,7 @@ import HomeBody from "../HomeBody";
 import ProjectCrew from "../../projectcrew/ProjectCrew";
 import GanttChartExample from "../../GanttChartExample";
 import AlertDialog from "../../../components/AlertDialog";
-
+import callApi from "../../../common/callApi";
 
 const Projects = ({projectId}) => {
   const navigate = useNavigate();
@@ -19,7 +19,8 @@ const Projects = ({projectId}) => {
   const focusedProjectRef = useRef([]);
   const divRef = useRef();
   // const focusedProjectRef2 = useRef();
-  const [isModalVisible, setModalVisible] = useState(false)
+  const [isModalVisible, setModalVisible] = useState(false);
+
 
   const cardSelectHandler = (id) => {
     setCurrentIndex(id);
@@ -51,7 +52,12 @@ const Projects = ({projectId}) => {
   return (
     // <div className={'h-full m-[10px] overscroll-contain overflow-hidden'}>
     <Box sx={{marginTop: '10px'}} component="main">
-      <Button onClick={() => setModalVisible(true)}>aaa1111</Button>
+      <Button
+        onClick={
+          () => callApi({
+            url: '/posts/1',
+            method: 'get',
+          })}>aaa1111</Button>
       <div>{isModalVisible && <AlertDialog contents={'aaaaaㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㄴ'} isVisible={isModalVisible} />}</div>
       <div className={'h-full flex overflow-y-auto'}>
         <div ref={divRef} className={
