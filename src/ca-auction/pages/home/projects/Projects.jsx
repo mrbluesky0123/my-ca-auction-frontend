@@ -3,12 +3,13 @@ import {useEffect, useRef, useState} from 'react';
 import Typography from '@mui/material/Typography';
 import ProjectCard from "./ProjectCard";
 import {Link} from 'react-scroll'
-import {Box} from "@mui/material";
+import {Box, Button} from "@mui/material";
 import ProjectDetail from "../projectdetail/ProjectDetail";
 import {Route, Router, Routes, useNavigate} from "react-router-dom";
 import HomeBody from "../HomeBody";
 import ProjectCrew from "../../projectcrew/ProjectCrew";
 import GanttChartExample from "../../GanttChartExample";
+import AlertDialog from "../../../components/AlertDialog";
 
 
 const Projects = ({projectId}) => {
@@ -18,6 +19,7 @@ const Projects = ({projectId}) => {
   const focusedProjectRef = useRef([]);
   const divRef = useRef();
   // const focusedProjectRef2 = useRef();
+  const [isModalVisible, setModalVisible] = useState(false)
 
   const cardSelectHandler = (id) => {
     setCurrentIndex(id);
@@ -49,6 +51,8 @@ const Projects = ({projectId}) => {
   return (
     // <div className={'h-full m-[10px] overscroll-contain overflow-hidden'}>
     <Box sx={{marginTop: '10px'}} component="main">
+      <Button onClick={() => setModalVisible(true)}>aaa1111</Button>
+      <div>{isModalVisible && <AlertDialog contents={'aaaaaㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㄴ'} isVisible={isModalVisible} />}</div>
       <div className={'h-full flex overflow-y-auto'}>
         <div ref={divRef} className={
           selectedProjectID === null ? 'flex flex-wrap content-start' : 'flex flex-wrap w-[390px] h-[calc(100vh-50px)] overflow-y-auto'
