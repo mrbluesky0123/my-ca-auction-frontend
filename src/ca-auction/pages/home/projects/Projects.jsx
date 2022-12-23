@@ -1,25 +1,28 @@
 import * as React from 'react';
 import {useEffect, useRef, useState} from 'react';
-import Typography from '@mui/material/Typography';
 import ProjectCard from "./ProjectCard";
-import {Link} from 'react-scroll'
-import {Box, Button} from "@mui/material";
+import {Box} from "@mui/material";
 import ProjectDetail from "../projectdetail/ProjectDetail";
-import {Route, Router, Routes, useNavigate} from "react-router-dom";
-import HomeBody from "../HomeBody";
-import ProjectCrew from "../../projectcrew/ProjectCrew";
-import GanttChartExample from "../../GanttChartExample";
-import AlertDialog from "../../../components/AlertDialog";
+import {useNavigate} from "react-router-dom";
+import callApi from "../../../common/callApi";
 
 
 const Projects = ({projectId}) => {
   const navigate = useNavigate();
   const [selectedProjectID, setSelectedProjectID] = useState(null)
   const [currentIndex, setCurrentIndex] = useState(null);
+  const [projects, setProjects] = useState([]);
   const focusedProjectRef = useRef([]);
   const divRef = useRef();
   // const focusedProjectRef2 = useRef();
-  const [isModalVisible, setModalVisible] = useState(false)
+
+
+  useEffect(() => {
+    if (projectId !== null && projectId !== undefined) {
+      setCurrentIndex(parseInt(projectId));
+      setSelectedProjectID(parseInt(projectId));
+    }
+  }, [])
 
   const cardSelectHandler = (id) => {
     setCurrentIndex(id);
@@ -32,53 +35,53 @@ const Projects = ({projectId}) => {
     }
   }
 
-  useEffect(() => {
-    console.log("###11##", projectId)
-    if (projectId !== null && projectId !== undefined) {
-      console.log("###################", projectId)
-      setCurrentIndex(parseInt(projectId));
-      setSelectedProjectID(parseInt(projectId));
+  const getProjectBriefInfo = async () => {
+    let response = await callApi({
+      url: '/v1/projects',
+      method: 'get',
+    })
+    if(response.isSuccess) {
+      console.log("###### ", response);
+      setProjects([...projects, response.data.result])
     }
-  }, [])
+  }
 
   useEffect(() => {
     console.log("###22##", projectId)
     if (currentIndex !== null) {
-      divRef.current.scroll({top: (currentIndex - 1) * 284})
+      divRef.current.scroll({top: (currentIndex - 1) * 284,
+        behavior: 'smooth'
+      }
+      )
     }
+    getProjectBriefInfo();
   }, [currentIndex])
 
   return (
     // <div className={'h-full m-[10px] overscroll-contain overflow-hidden'}>
     <Box sx={{marginTop: '10px'}} component="main">
-      <Button onClick={() => setModalVisible(true)}>aaa1111</Button>
-      <div>{isModalVisible && <AlertDialog contents={'aaaaaㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㄴ'} isVisible={isModalVisible} />}</div>
       <div className={'h-full flex overflow-y-auto'}>
         <div ref={divRef} className={
           selectedProjectID === null ? 'flex flex-wrap content-start' : 'flex flex-wrap w-[390px] h-[calc(100vh-50px)] overflow-y-auto'
         }>
-          {/*    <SimpleGrid spacing={5} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>*/}
-          <Link to="/main/project/1">
-            <div className={'h-[284px] '}>
-              <ProjectCard
-                isMyProject={false}
-                isSelected={selectedProjectID === 1 ? true : false}
-                id={1}
-                title={"GAIA 고도화 프로젝트"}
-                writer={"radi.yang"}
-                status={"inProgress"}
-                regDate={"2022/12/09"}
-                content={"가이아 고도화를 위한 프로젝트입니다."}
-                positionList={[{name: 'backend', vacancy: 4}, {
-                  name: 'frontend',
-                  vacancy: 2
-                }, {name: 'PL', vacancy: 1}]}
-                cardSelectHandler={() => cardSelectHandler(1)}
-              />
-            </div>
-          </Link>
-          {/*</SimpleGrid>*/}
-          <div className={'h-[284px]'} >
+          <div className={'h-[284px] '}>
+            <ProjectCard
+              isMyProject={false}
+              isSelected={selectedProjectID === 1 ? true : false}
+              id={1}
+              title={"GAIA 고도화 프로젝트"}
+              writer={"radi.yang"}
+              status={"inProgress"}
+              regDate={"2022/12/09"}
+              content={"가이아 고도화를 위한 프로젝트입니다."}
+              positionList={[{name: 'backend', vacancy: 4}, {
+                name: 'frontend',
+                vacancy: 2
+              }, {name: 'PL', vacancy: 1}]}
+              cardSelectHandler={() => cardSelectHandler(1)}
+            />
+          </div>
+          <div className={'h-[284px]'}>
             <ProjectCard
               isMyProject={true}
               isSelected={selectedProjectID === 2 ? true : false}
@@ -96,7 +99,7 @@ const Projects = ({projectId}) => {
 
             />
           </div>
-          <div className={'h-[284px]'} >
+          <div className={'h-[284px]'}>
             <ProjectCard
               isMyProject={false}
               isSelected={selectedProjectID === 3 ? true : false}
@@ -114,7 +117,7 @@ const Projects = ({projectId}) => {
               ref={el => (focusedProjectRef.current[3] = el)}
             />
           </div>
-          <div className={'h-[284px]'} >
+          <div className={'h-[284px]'}>
             <ProjectCard
               isMyProject={false}
               isSelected={selectedProjectID === 4 ? true : false}
@@ -132,7 +135,7 @@ const Projects = ({projectId}) => {
               ref={el => (focusedProjectRef.current[4] = el)}
             />
           </div>
-          <div className={'h-[284px]'} >
+          <div className={'h-[284px]'}>
             <ProjectCard
               isMyProject={false}
               isSelected={selectedProjectID === 5 ? true : false}
@@ -150,7 +153,7 @@ const Projects = ({projectId}) => {
               ref={el => (focusedProjectRef.current[5] = el)}
             />
           </div>
-          <div className={'h-[284px]'} >
+          <div className={'h-[284px]'}>
             <ProjectCard
               isMyProject={true}
               isSelected={selectedProjectID === 6 ? true : false}
@@ -168,7 +171,7 @@ const Projects = ({projectId}) => {
               ref={el => (focusedProjectRef.current[6] = el)}
             />
           </div>
-          <div className={'h-[284px]'} >
+          <div className={'h-[284px]'}>
             <ProjectCard
               isMyProject={false}
               isSelected={selectedProjectID === 7 ? true : false}
@@ -186,7 +189,7 @@ const Projects = ({projectId}) => {
               ref={el => (focusedProjectRef.current[7] = el)}
             />
           </div>
-          <div className={'h-[284px]'} >
+          <div className={'h-[284px]'}>
             <ProjectCard
               isMyProject={false}
               isSelected={selectedProjectID === 8 ? true : false}
@@ -204,7 +207,7 @@ const Projects = ({projectId}) => {
               ref={el => (focusedProjectRef.current[8] = el)}
             />
           </div>
-          <div className={'h-[284px]'} >
+          <div className={'h-[284px]'}>
             <ProjectCard
               isMyProject={false}
               isSelected={selectedProjectID === 9 ? true : false}
@@ -222,7 +225,7 @@ const Projects = ({projectId}) => {
               ref={el => (focusedProjectRef.current[9] = el)}
             />
           </div>
-          <div className={'h-[284px]'} >
+          <div className={'h-[284px]'}>
             <ProjectCard
               isMyProject={false}
               isSelected={selectedProjectID === 10 ? true : false}
@@ -240,7 +243,7 @@ const Projects = ({projectId}) => {
               ref={el => (focusedProjectRef.current[10] = el)}
             />
           </div>
-          <div className={'h-[284px]'} >
+          <div className={'h-[284px]'}>
             <ProjectCard
               isMyProject={false}
               isSelected={selectedProjectID === 11 ? true : false}
@@ -258,7 +261,7 @@ const Projects = ({projectId}) => {
               ref={el => (focusedProjectRef.current[11] = el)}
             />
           </div>
-          <div className={'h-[284px]'} >
+          <div className={'h-[284px]'}>
             <ProjectCard
               isMyProject={false}
               isSelected={selectedProjectID === 12 ? true : false}
@@ -276,7 +279,7 @@ const Projects = ({projectId}) => {
               ref={el => (focusedProjectRef.current[13] = el)}
             />
           </div>
-          <div className={'h-[284px]'} >
+          <div className={'h-[284px]'}>
             <ProjectCard
               isMyProject={false}
               isSelected={selectedProjectID === 13 ? true : false}
@@ -299,15 +302,15 @@ const Projects = ({projectId}) => {
           {/*</SimpleGrid>*/}
         </div>
 
-          {
-            selectedProjectID !== null && selectedProjectID !== undefined ?
-              <div className={'w-[calc(100%-390px)] h-[calc(100vh-60px)]'}>
-                <ProjectDetail selectedProjectId={selectedProjectID}/>
-              </div>
-              : null
-          }
+        {
+          selectedProjectID !== null && selectedProjectID !== undefined ?
+            <div className={'w-[calc(100%-390px)] h-[calc(100vh-60px)]'}>
+              <ProjectDetail selectedProjectId={selectedProjectID}/>
+            </div>
+            : null
+        }
       </div>
-    {/*</div>*/}
+      {/*</div>*/}
     </Box>
   )
 }

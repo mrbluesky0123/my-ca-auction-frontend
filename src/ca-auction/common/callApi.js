@@ -9,7 +9,13 @@ export default function callApi({ url,
                                   isLoading = true,
                                   goErrorPageWhenFailed = false
                                 }, config) {
-  let api_url = BASE_URL + url;
+  let api_url = '';
+  if(url.startsWith('http')) {
+    api_url = url;
+  } else {;
+    api_url = BASE_URL + url;
+    console.log("!@!@!@ ", api_url);
+  }
   return axios({
     method: method,
     url: api_url,
@@ -22,10 +28,12 @@ export default function callApi({ url,
       'Content-Type': 'application/json;charset=utf-8',
       'Access-Control-Allow-Origin': '*',
     },
-    ...config
   })
     .then((response) => {
-      return response;
+      return {
+        isSuccess: true,
+        data: response
+      };
     })
     .catch((error) => {
       if(error.response === undefined) {
@@ -36,7 +44,7 @@ export default function callApi({ url,
       }
       return {
         isSuccess: false,
-        data: undefined,
+        data: error,
         responseCode: error.response.responseCode,
         responseMessage: error.response.responseMessage
       }

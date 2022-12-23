@@ -5,11 +5,16 @@ import * as colors from '@mui/material/colors';
 import {useNavigate} from "react-router-dom";
 import axios from 'axios';
 
+// TODO 로그인 페이지 접근시 기존에 가지고있는 토큰이 있다면 메인페이지로 넘겨야 한다
+// 1. 만료된 토큰을 가지고있는 경우라면 어떻게 해야할까?
+//    - 토큰 저장시 기한을 두거나, 메인 페이지로 넘기면 api 콜을 할것이고 api 에서 만료된 토큰이라는 응답이 올 것
 
+
+// TODO Login URL 서버 환경에 맞춰서 변경해줘야함(ex. local, dev, test, production etc)
 const LOGIN_URL = "http://172.19.111.235:8080/api/v1/login";
 const Login = (props) => {
-  const [ldapId, setLdapId] = useState(""); //프로젝트 명
-  const [ldapPassword, setLdapPassword] = useState(""); //프로젝트 명
+  const [ldapId, setLdapId] = useState("");
+  const [ldapPassword, setLdapPassword] = useState("");
   const navigate = useNavigate();
   const ColorButton = styled(Button)(({theme}) => ({
     color: theme.palette.getContrastText(colors.amber[500]),
@@ -19,11 +24,12 @@ const Login = (props) => {
     },
   }));
   const onLoginButtonClick = () => {
-    if(isValidIdAndPasswordInput()) {
+    if (isValidIdAndPasswordInput()) {
       alert("아이디와 비밀번호를 입력해주세요.");
       resetIdAndPassword();
       return;
     }
+
     axios.post(LOGIN_URL, {
       id: ldapId, // 입력값
       password: ldapPassword // 입력값
@@ -31,15 +37,18 @@ const Login = (props) => {
       withCredentials: true
     })
       .then(function (response) {
-        if(response.data.code === "401") {
+        console.log(response);
+        if (response.data.code === "401") {
           // 로그인 실패시
           alert("아이디 혹은 비밀번호가 잘못되었습니다.");
           // + 아이디, 패스워드 입력값 초기화 시키기
           resetIdAndPassword();
-        }else {
-          // 로그인 성공시
-          alert("Ok");
-          return navigate('/main/project/')
+        } else {
+          // TODO 로그인 성공시 토큰 값 내부 저장소에 저장
+          console.log(response.data)
+          console.log(response.data.message.accessToken)
+
+          // return navigate('/main/project/')
         }
       })
       .catch(function (error) {
@@ -53,6 +62,7 @@ const Login = (props) => {
   function isValidIdAndPasswordInput() {
     return ldapId.trim().length < 1 || ldapPassword.trim().length < 1
   }
+
   function resetIdAndPassword() {
     setLdapId('');
     setLdapPassword('');

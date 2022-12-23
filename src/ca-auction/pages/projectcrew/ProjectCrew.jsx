@@ -1,4 +1,4 @@
-import React, {useEffect, useRef,createContext, useState} from "react";
+import React, {useEffect, useRef, createContext, useState} from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import {ko} from "date-fns/esm/locale";
 import {
@@ -10,6 +10,7 @@ import {
   Avatar,
   Badge
 } from "@mui/material";
+import {stringToColor} from "../../composable/color-util"
 
 import {deepOrange, deepPurple} from '@mui/material/colors';
 
@@ -27,40 +28,30 @@ export const Context = createContext();
 const ProjectCrew = (props) => {
   const [projectName, setProjectName] = useState(""); //프로젝트 명
   const [projectContent, setProjectContent] = useState(""); //프로젝트 내용
-  const [startDate, setStartDate] = useState(new Date()); //시작일자
-  const [endDate, setEndDate] = useState(new Date()); //종료일자
-
-
+  const [projectStartDate, setProjectStartDate] = useState(new Date()); //시작일자
+  const [projectEndDate, setProjectEndDate] = useState(new Date()); //종료일자
   const [members, setMembers] = useState(new Map()); //투입인원의 롤 및 인원수 저장을 위한 맵
-  const [index, setIndex] = useState(0);
-
-  const [summary, setSummary] = useState(new Map()); //투입인원의 롤 및 인원수 저장을 위한 맵
-
-  function stringToColor(string) {
-    let hash = 0;
-    let i;
-
-    /* eslint-disable no-bitwise */
-    for (i = 0; i < string.length; i += 1) {
-      hash = string.charCodeAt(i) + ((hash << 5) - hash);
-    }
-
-    let color = '#';
-
-    for (i = 0; i < 3; i += 1) {
-      const value = (hash >> (i * 8)) & 0xff;
-      color += `00${value.toString(16)}`.slice(-2);
-    }
-    /* eslint-enable no-bitwise */
-
-    return color;
-  }
-
+  const [index, setIndex] = useState(0); //투입인원 생성 키
+  const [summary, setSummary] = useState(new Map()); //투입인원의 롤 및 인원수의 서버리정보 저장을 위한 맵
+  const [jobOfferinfo, setJobOfferinfo] = useState({});
+  const [jobOfferList, setJobOfferList] = useState(new Map()); //구인의 정보를 저장함
 
   useEffect(() => {
-      // console.log("summary", summary);
-    }, [summary]
-  )
+
+    console.log("jobOfferList", jobOfferList);
+
+  }, [jobOfferList]);
+
+  useEffect(() => {
+    console.log("jobOfferList", jobOfferinfo);
+    console.log("jobOfferList ID", jobOfferinfo.id);
+
+    if (jobOfferinfo.id !== undefined) {
+      addJobOfferList(jobOfferinfo.id, jobOfferinfo);
+    }
+
+  }, [jobOfferinfo]);
+
   const memberList = () => {
     const arr = [];
 
@@ -87,7 +78,7 @@ const ProjectCrew = (props) => {
         console.log(key);
         arr.push(
           // <Button sx={{textTransform: 'unset'}}> {/*{counter[key]}</Button>*/}
-          <div className={"p-1"}>
+          <div className={"p-1"} key={key}>
             <Badge badgeContent={counter[key]} color="secondary">
               <Avatar sx={{
                 bgcolor: stringToColor(key),
@@ -101,6 +92,18 @@ const ProjectCrew = (props) => {
 
     return arr
   }
+
+  const addJobOfferList = (key, value) => {
+    setJobOfferList((prev) => new Map([...prev, [key, value]]));
+  };
+
+  const delJobOfferList = (key) => {
+    setJobOfferList((prev) => {
+      const newState = new Map(prev);
+      newState.delete(key);
+      return newState;
+    });
+  };
 
   const addSummary = (key, value) => {
     setSummary((prev) => new Map([...prev, [key, value]]));
@@ -142,7 +145,7 @@ const ProjectCrew = (props) => {
 
 
   return (
-    <Context.Provider value={{projectName}}>
+    <Context.Provider value={{projectStartDate, projectEndDate, setJobOfferinfo}}>
       <div className="grid grid-rows-1 grid-cols-3">
         <div>
           <Card
@@ -188,11 +191,11 @@ const ProjectCrew = (props) => {
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                       label="시작 일자"
-                      value={startDate}
+                      value={projectStartDate}
                       locale={ko}
                       inputFormat={"YYYY년 MM월 DD일"}
                       mask={"____년 __월 __일"}
-                      onChange={(newValue) => setStartDate(newValue)}
+                      onChange={(newValue) => setProjectStartDate(newValue)}
                       renderInput={(params) => <TextField_DatePicker
                         size="small" {...params} />}
                     />
@@ -200,21 +203,21 @@ const ProjectCrew = (props) => {
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                       label="종료 일자"
-                      value={endDate}
+                      value={projectEndDate}
                       locale={ko}
                       inputFormat={"YYYY년 MM월 DD일"}
                       mask={"____년 __월 __일"}
                       onChange={(newValue) => {
-                        if (newValue < startDate) {
+                        if (newValue < projectStartDate) {
                           alert("종료일자를 확인해주세요. 시작일자보다 전일자는 안되요.");
                         } else {
-                          setEndDate(newValue);
+                          setProjectEndDate(newValue);
                         }
                       }}
                       renderInput={(params) => <TextField_DatePicker {...params}
                                                                      size="small"
                                                                      sx={{ml: 2}}
-                                                                     error={endDate < startDate}/>}
+                                                                     error={projectEndDate < projectStartDate}/>}
                     />
                   </LocalizationProvider>
                 </Box>
@@ -237,7 +240,10 @@ const ProjectCrew = (props) => {
                       fontSize: '1rem',
                       width: '5rem'
                     }}
-                    //onClick={(e) => }
+                    // onClick={(e) => {
+                    //   console.log(a);
+                    //   setA(234);
+                    // }}
                   >
                     등록
                   </Button>
@@ -280,8 +286,8 @@ const ProjectCrew = (props) => {
                 onClick={(e) => {
                   setIndex(index + 1);
                   add(index, <div key={index}><JobOffer akey={index}
-                                                        startDate={startDate}
-                                                        endDate={endDate}
+                                                        startDate={projectStartDate}
+                                                        endDate={projectEndDate}
                                                         propDeleteFunction={
                                                           (akey) => {
                                                             // console.log("ProjectCrew del ", akey);
