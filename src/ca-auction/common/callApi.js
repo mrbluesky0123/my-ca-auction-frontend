@@ -1,6 +1,15 @@
 import axios from 'axios';
+import AlertDialog from "../components/AlertDialog";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
+import { createPortal } from "react-dom";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 export default function callApi({ url,
                                   method = 'get',
                                   params,
@@ -38,9 +47,13 @@ export default function callApi({ url,
     .catch((error) => {
       if(error.response === undefined) {
         console.log("Failed to connect server.");
+        return <AlertDialog contents={'aaaaaaa'} isVisible={true} />;
       }
       if(error.response.status === 500) {
         console.log("Internal server error");
+      } else {
+        console.log("Failed to connect server.");
+        throw error;
       }
       return {
         isSuccess: false,
