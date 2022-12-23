@@ -3,12 +3,9 @@ import {useEffect, useRef, useState} from 'react';
 import ProjectCard from "./ProjectCard";
 import {Box} from "@mui/material";
 import ProjectDetail from "../projectdetail/ProjectDetail";
-import {Route, Router, Routes, useNavigate} from "react-router-dom";
-import HomeBody from "../HomeBody";
-import ProjectCrew from "../../projectcrew/ProjectCrew";
-import GanttChartExample from "../../GanttChartExample";
-import AlertDialog from "../../../components/AlertDialog";
+import {useNavigate} from "react-router-dom";
 import callApi from "../../../common/callApi";
+
 
 const Projects = ({projectId}) => {
   const navigate = useNavigate();
