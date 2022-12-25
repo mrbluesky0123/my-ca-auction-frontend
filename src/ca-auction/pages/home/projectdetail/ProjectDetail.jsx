@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import {
   Box,
   Divider,
@@ -7,7 +7,7 @@ import {
   TextField,
   ToggleButton,
   Typography,
-  Container
+  Container, Button
 } from "@mui/material";
 import {styled} from "@mui/material/styles";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
@@ -21,6 +21,8 @@ import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import ProjectDetailCrew from "./ProjectDetailCrew";
 import Card from "@mui/material/Card";
+import {GlobalCommonContext} from "../../../common/GlobalContext";
+import ComputerIcon from "@mui/icons-material/Computer";
 
 const data = {
   projectId: 2361,
@@ -68,6 +70,8 @@ const ProjectDetail = ({selectedProjectId}) => {
   const projectInfoReference = useRef();
   const [projectInfoHeight, setProjectInfoHeight] = useState(0)
   const [wholeDivHeight, setWholeDivHeight] = useState(0)
+  const {userId} = useContext(GlobalCommonContext);
+
   let recruitIndex = 0;
 
   useEffect(() => {
@@ -81,6 +85,20 @@ const ProjectDetail = ({selectedProjectId}) => {
         <Typography sx={{fontSize: '18px', color: 'text.secondary'}} mb={1}>
           프로젝트# {selectedProjectId}
         </Typography>
+        {
+          data.projectLeader === userId ?
+            <Button sx={{
+              paddingY: '0.2rem',
+              paddingX: '1rem',
+              fontSize: '1.1rem',
+              fontWeight: 'bold',
+              border: `1px solid`,
+              // width: '10rem',
+              height: '3rem',
+              justifyContent: "flex-start",
+              my: '0.3rem'
+            }} startIcon={<ComputerIcon className={'mr-[10px]'}/>}>프로젝트 등록</Button> : null
+        }
         <Stack direction={"row"}>
           <Typography variant={'h4'} mb={3}>
             {data.projectTitle} ({selectedProjectId})
