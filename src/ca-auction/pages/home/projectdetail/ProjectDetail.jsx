@@ -144,7 +144,7 @@ const ProjectDetail = ({selectedProjectId}) => {
             </Typography>
           </Grid>
           <Grid item xs={9}>
-            <Container fixed
+            <Box fixed
                        sx={{
                          // maxHeight: (wholeDivHeight - projectInfoHeight > 300 ? wholeDivHeight - projectInfoHeight : 600),
                          paddingX: 0,
@@ -160,7 +160,7 @@ const ProjectDetail = ({selectedProjectId}) => {
                       {data.projectDescription}
                     </pre>
               </Typography>
-            </Container>
+            </Box>
           </Grid>
         </Grid>
       </Box>

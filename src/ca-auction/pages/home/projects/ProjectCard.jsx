@@ -18,21 +18,9 @@ const ProjectCard = ({isMyProject, isSelected, id, title, writer, status, regDat
   const secondaryColor = theme.palette.secondary
   const getCardStyleByStatus = () => {
     let color = {}
-    switch (status) {
-      case "inProgress":
-        isSelected?
-          color = {backgroundColor: secondaryColor[50], backgroundColorHover: secondaryColor[100]} :
-          color = {backgroundColor: "#ffffff", backgroundColorHover: primaryColor['50']};
-        break;
-      case "complete":
-        isSelected?
-          color = {backgroundColor: blueGrey[100], backgroundColorHover: blueGrey[200]} :
-          color = {backgroundColor: grey[200], backgroundColorHover: grey[300]};
-        break;
-      default:
-        color = {backgroundColor: "#ffffff", backgroundColorHover: "rgba(255,255,188,0.34)"};
-        break;
-    }
+    isSelected?
+      color = {backgroundColor: primaryColor[800], fontColor: primaryColor[50], subFontColor: primaryColor[200]} :
+      color = {backgroundColor: "#ffffff", fontColor: theme.palette.text.primary, subFontColor: theme.palette.text.secondary};
     return color;
   }
   const getStatusDescriptionByStatus = () => {
@@ -66,9 +54,10 @@ const ProjectCard = ({isMyProject, isSelected, id, title, writer, status, regDat
         marginX: '10px',
         // marginY: '10px',
         // marginY: '10px',
+        border: `1px solid ${theme.palette.divider}`,
         backgroundColor: getCardStyleByStatus().backgroundColor,
         "&:hover": {
-          backgroundColor: getCardStyleByStatus().backgroundColorHover,
+          border: '2px solid',
           cursor: "pointer"
         }
       }}
@@ -77,8 +66,7 @@ const ProjectCard = ({isMyProject, isSelected, id, title, writer, status, regDat
       {...props}
     />
   ))(({theme}) => ({
-    border: `1px solid ${theme.palette.divider}`,
-    backgroundColor: getCardStyleByStatus()
+
   }));
 
   const myProject = () => (
@@ -112,20 +100,35 @@ const ProjectCard = ({isMyProject, isSelected, id, title, writer, status, regDat
   return (
 
     <ProjectCard>
+      <div className={'relative'}>
+        {
+          status === 'complete' ?
+            <div className={'absolute top-[180px] left-[260px] z-10'}>
+              <img
+                // className='absolute top-[-100px] bottom-[0px] right-[10px] left-[200px]'
+                width='80px'
+                height='80px'
+                objectFit='none'
+                src='/image/complete.png'
+                alt='complete'
+              />
+            </div>: null
+        }
+      </div>
       <CardContent sx={{minHeight: '210px'}}>
         <div className='flex flex-wrap align-sub'>
-          <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
+          <Typography sx={{fontSize: 14}} color={getCardStyleByStatus().subFontColor} gutterBottom>
             {regDate}
           </Typography>
           {isMyProject? myProject() : null}
         </div>
-        <Typography sx={{fontWeight: 'bold'}} variant="h6" component="div">
+        <Typography sx={{fontWeight: 'bold', color: getCardStyleByStatus().fontColor}} variant="h6" component="div">
           <Link to="/main/project/1">{title}</Link>
         </Typography>
-        <Typography sx={{fontSize: 12, mb: 1.5}} color="text.secondary">
+        <Typography sx={{fontSize: 12, mb: 1.5}} color={getCardStyleByStatus().subFontColor}>
           {writer}{bull}{getStatusDescriptionByStatus()}
         </Typography>
-        <Typography sx={{fontSize: 15}}>
+        <Typography sx={{fontSize: 15, color: getCardStyleByStatus().fontColor}}>
           {content}
         </Typography>
       </CardContent>

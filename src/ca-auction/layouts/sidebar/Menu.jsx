@@ -1,5 +1,5 @@
 import { useTheme } from '@mui/material/styles';
-import {Box, Button, ButtonBase, Drawer, useMediaQuery} from '@mui/material';
+import {Box, Button, ButtonBase, Card, Drawer, useMediaQuery} from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -14,33 +14,15 @@ import ComputerIcon from '@mui/icons-material/Computer';
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 import PersonIcon from '@mui/icons-material/Person';
 
-const drawerWidth = 200;
+const drawerWidth = 250;
 const Menu = ({drawerOpen, drawerToggle, window}) => {
   const theme = useTheme();
-  const Accordion = styled((props) => (
-    <MuiAccordion disableGutters elevation={0} square {...props} />
-  ))(({theme}) => ({
-    border: `0px solid ${theme.palette.divider}`,
-    '&:not(:last-child)': {
-      borderBottom: 0,
-    },
-    '&:before': {
-      display: 'none',
-      color: 'red'
-    },
-    '&.MuiAccordion-root': {
-      '&.Mui-expanded': {
-        background: theme.palette.primary,
-        border: `none`,
-      }
-    }
-  }));
 
   const MenuButton = styled((props) => (
-    <Button alignLeft elevation={0} color={'inherit'}  {...props} />
+    <Button alignLeft elevation={3} color={'inherit'}  {...props} />
   ))(({theme}) => ({
     paddingLeft: '20px',
-    fontSize: '1rem',
+    fontSize: '1.1rem',
     fontWeight: 'bold',
     border: `0px solid`,
     width: '200px',
@@ -53,12 +35,20 @@ const Menu = ({drawerOpen, drawerToggle, window}) => {
   const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
 
   const drawer = (
-    <>
+    <Card
+      elevation={0}
+      sx={{
+        height: '95%',
+        border: '1px solid',
+        borderColor: theme.palette.divider,
+        paddingY: '15px',
+        paddingX: '15px'
+      }}>
       <Link to="/main/project"><MenuButton startIcon={<HomeIcon className={'mr-[10px]' } />}>프로젝트</MenuButton></Link>
       <Link to="/main/projectcrew"><MenuButton startIcon={<ComputerIcon className={'mr-[10px]'}/>}>프로젝트 등록</MenuButton></Link>
       <Link to="/main/newproject"><MenuButton startIcon={<DeveloperBoardIcon className={'mr-[10px]'}/>}>프로젝트 구직</MenuButton></Link>
       <Link to="/main/my-project"><MenuButton startIcon={<PersonIcon className={'mr-[10px]'} />}>내 프로젝트</MenuButton></Link>
-    </>
+    </Card>
   );
 
   const container = window !== undefined ? () => window.document.body : undefined;
@@ -66,7 +56,7 @@ const Menu = ({drawerOpen, drawerToggle, window}) => {
   return (
     <Box component="nav"
          sx={{
-           flexShrink: {md: 0},
+           // flexShrink: {md: 0},
            width: matchUpMd ? drawerWidth : 'auto',
            marginTop: '50px',
          }}
@@ -79,13 +69,16 @@ const Menu = ({drawerOpen, drawerToggle, window}) => {
         onClose={drawerToggle}
         elevation={2}
         sx={{
-          border: theme.palette.divider,
+          border: `0px solid`,
           '& .MuiDrawer-paper': {
             width: drawerWidth,
             backgroundColor: theme.palette.background.default,
+            border: `0px solid`,
             // background: 'white',
-            color: theme.palette.text.primary,
-            borderRightColor: theme.palette.divider,
+            // color: theme.palette.text.primary,
+            // borderColor: theme.palette.divider,
+            paddingX: '10px',
+            paddingY: '5px',
             [theme.breakpoints.up('md')]: {
               top: '55px'
             },

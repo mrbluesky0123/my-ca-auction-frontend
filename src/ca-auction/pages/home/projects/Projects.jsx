@@ -148,7 +148,7 @@ const Projects = ({projectId}) => {
               positionList={[{name: 'backend', vacancy: 2}, {
                 name: 'frontend',
                 vacancy: 2
-              }, {name: 'PL', vacancy: 1}]}
+              }, {name: 'PL', vacancy: 1}, {name: '기획', vacancy: 1}, {name: '계정계', vacancy: 1}]}
               cardSelectHandler={() => cardSelectHandler(5)}
               ref={el => (focusedProjectRef.current[5] = el)}
             />
