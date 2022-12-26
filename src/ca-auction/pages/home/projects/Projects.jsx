@@ -64,6 +64,32 @@ const Projects = ({projectId}) => {
         <div ref={divRef} className={
           selectedProjectID === null ? 'flex flex-wrap content-start' : 'flex flex-wrap w-[390px] h-[calc(100vh-50px)] overflow-y-auto'
         }>
+          {
+            projects.map( (eachProject) => {
+                return (
+                  <div className={'h-[284px] '}>
+                    <ProjectCard
+                      isMyProject={false}
+                      isSelected={selectedProjectID === eachProject.id ? true : false}
+                      id={1}
+                      title={eachProject.title}
+                      writer={eachProject.crew_id}
+                      status={"inProgress"}
+                      regDate={"2022/12/09"}
+                      content={"가이아 고도화를 위한 프로젝트입니다."}
+                      positionList={[{name: 'backend', vacancy: 4}, {
+                        name: 'frontend',
+                        vacancy: 2
+                      }, {name: 'PL', vacancy: 1}]}
+                      cardSelectHandler={() => cardSelectHandler(1)}
+                    />
+                  </div>
+                )
+              }
+            )
+          }
+
+
           <div className={'h-[284px] '}>
             <ProjectCard
               isMyProject={false}
@@ -148,7 +174,7 @@ const Projects = ({projectId}) => {
               positionList={[{name: 'backend', vacancy: 2}, {
                 name: 'frontend',
                 vacancy: 2
-              }, {name: 'PL', vacancy: 1}, {name: '기획', vacancy: 1}, {name: '계정계', vacancy: 1}]}
+              }, {name: 'PL', vacancy: 1}]}
               cardSelectHandler={() => cardSelectHandler(5)}
               ref={el => (focusedProjectRef.current[5] = el)}
             />

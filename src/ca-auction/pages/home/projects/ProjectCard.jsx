@@ -19,7 +19,7 @@ const ProjectCard = ({isMyProject, isSelected, id, title, writer, status, regDat
   const getCardStyleByStatus = () => {
     let color = {}
     isSelected?
-      color = {backgroundColor: primaryColor[800], fontColor: primaryColor[50], subFontColor: primaryColor[200]} :
+      color = {backgroundColor: primaryColor[900], fontColor: primaryColor[50], subFontColor: primaryColor[200]} :
       color = {backgroundColor: "#ffffff", fontColor: theme.palette.text.primary, subFontColor: theme.palette.text.secondary};
     return color;
   }
@@ -56,12 +56,14 @@ const ProjectCard = ({isMyProject, isSelected, id, title, writer, status, regDat
         // marginY: '10px',
         border: `1px solid ${theme.palette.divider}`,
         backgroundColor: getCardStyleByStatus().backgroundColor,
+        boxShadow: 2,
         "&:hover": {
-          border: '2px solid',
+          border: isSelected? `1px solid ${theme.palette.secondary['600']}` : `1px solid`,
+          // boxShadow: 12,
           cursor: "pointer"
         }
       }}
-      elevation={2}
+      // elevation={3}
       onClick={() => onCardClick()}
       {...props}
     />

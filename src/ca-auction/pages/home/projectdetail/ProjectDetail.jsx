@@ -1,28 +1,14 @@
 import React, {useContext, useEffect, useRef, useState} from "react";
-import {
-  Box,
-  Divider,
-  Grid,
-  Stack,
-  TextField,
-  ToggleButton,
-  Typography,
-  Container, Button
-} from "@mui/material";
-import {styled} from "@mui/material/styles";
-import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {DatePicker} from "@mui/x-date-pickers/DatePicker";
-import {ko} from "date-fns/esm/locale";
-import TextField_DatePicker from "@mui/material/TextField";
+import {Box, Button, Container, Divider, Grid, Stack, Typography} from "@mui/material";
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import StartIcon from '@mui/icons-material/Start';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import ProjectDetailCrew from "./ProjectDetailCrew";
-import Card from "@mui/material/Card";
 import {GlobalCommonContext} from "../../../common/GlobalContext";
 import ComputerIcon from "@mui/icons-material/Computer";
+import SettingsIcon from '@mui/icons-material/Settings';
+import {useTheme} from "@mui/material/styles";
 
 const data = {
   projectId: 2361,
@@ -67,6 +53,7 @@ const data = {
 }
 
 const ProjectDetail = ({selectedProjectId}) => {
+  const theme = useTheme();
   const projectInfoReference = useRef();
   const [projectInfoHeight, setProjectInfoHeight] = useState(0)
   const [wholeDivHeight, setWholeDivHeight] = useState(0)
@@ -85,25 +72,38 @@ const ProjectDetail = ({selectedProjectId}) => {
         <Typography sx={{fontSize: '18px', color: 'text.secondary'}} mb={1}>
           프로젝트# {selectedProjectId}
         </Typography>
-        {
-          data.projectLeader === userId ?
-            <Button sx={{
-              paddingY: '0.2rem',
-              paddingX: '1rem',
-              fontSize: '1.1rem',
-              fontWeight: 'bold',
-              border: `1px solid`,
-              // width: '10rem',
-              height: '3rem',
-              justifyContent: "flex-start",
-              my: '0.3rem'
-            }} startIcon={<ComputerIcon className={'mr-[10px]'}/>}>프로젝트 등록</Button> : null
-        }
         <Stack direction={"row"}>
-          <Typography variant={'h4'} mb={3}>
+          <Typography sx={{
+            mb: data.projectLeader === userId ? 0 : 3
+          }} variant={'h4'}>
             {data.projectTitle} ({selectedProjectId})
           </Typography>
         </Stack>
+        {
+          data.projectLeader === userId ?
+            <Button
+              variant="contained"
+              sx={{
+                paddingY: '0.2rem',
+                paddingX: '1rem',
+                fontSize: '1rem',
+                fontWeight: 'bold',
+                // border: `1px solid`,
+                // width: '10rem',
+                height: '2rem',
+                justifyContent: "flex-start",
+                mt: '0.5rem',
+                mb: '0.7rem',
+                boxShadow: 0,
+                backgroundColor: theme.palette.primary[900],
+                '&.MuiButton-root': {
+                  '&:hover': {
+                    boxShadow: 0
+                  },
+                }
+              }}
+              startIcon={<SettingsIcon className={'mr-[0.25rem]'}/>}>수정</Button> : null
+        }
         <Grid container spacing={1}>
           <Grid item xs={3}>
             <Typography
@@ -163,15 +163,15 @@ const ProjectDetail = ({selectedProjectId}) => {
           </Grid>
           <Grid item xs={9}>
             <Box fixed
-                       sx={{
-                         // maxHeight: (wholeDivHeight - projectInfoHeight > 300 ? wholeDivHeight - projectInfoHeight : 600),
-                         paddingX: 0,
-                         overflowY: "scroll",
-                         "&.MuiContainer-root": {
-                           paddingLeft: 0,
-                           paddingRight: 20
-                         }
-                       }}>
+                 sx={{
+                   // maxHeight: (wholeDivHeight - projectInfoHeight > 300 ? wholeDivHeight - projectInfoHeight : 600),
+                   paddingX: 0,
+                   overflowY: "scroll",
+                   "&.MuiContainer-root": {
+                     paddingLeft: 0,
+                     paddingRight: 20
+                   }
+                 }}>
               <Typography>
                     <pre className={'whitespace-pre-line'}
                          style={{fontFamily: 'inherit', fontSize: '18px'}}>
@@ -184,41 +184,41 @@ const ProjectDetail = ({selectedProjectId}) => {
       </Box>
       <Divider sx={{marginY: 3}}/>
       <Container fixed
-        sx={{
-          maxHeight: (wholeDivHeight - projectInfoHeight > 300 ? wholeDivHeight - projectInfoHeight - 48 : 600),
-          overflowY: "scroll",
-          "&.MuiContainer-root": {
-            paddingLeft: 0,
-            paddingRight: 20,
-            marginX: 0
-          }
-        }}>
+                 sx={{
+                   maxHeight: (wholeDivHeight - projectInfoHeight > 300 ? wholeDivHeight - projectInfoHeight - 48 : 600),
+                   overflowY: "scroll",
+                   "&.MuiContainer-root": {
+                     paddingLeft: 0,
+                     paddingRight: 20,
+                     marginX: 0
+                   }
+                 }}>
         {
           <>
-          {data.projectRecruit.map((eachItem) =>
-            (
-              <div>
-                <Typography
-                  variant={'h6'}
-                  sx={{marginBottom: 1, fontWeight: 'bold'}}
-                >
-                  모집 #{++recruitIndex} {
-                  eachItem.recruitTitle === null ?
-                    (`[${data.projectTitle}] - ${eachItem.crewRoleName} 모집`)
-                    :
-                    eachItem.recruitTitle
-                }
-                </Typography>
-                <ProjectDetailCrew
-                  crewCount={eachItem.crewCount}
-                  crewRoleName={eachItem.crewRoleName}
-                  startDate={eachItem.startDate}
-                  endDate={eachItem.endDate}
-                  recruitEndDate={eachItem.recruitEndDate}
-                  recruitDescription={eachItem.recruitDescription}
-                />
-              </div>
-            ))}
+            {data.projectRecruit.map((eachItem) =>
+              (
+                <div>
+                  <Typography
+                    variant={'h6'}
+                    sx={{marginBottom: 1, fontWeight: 'bold'}}
+                  >
+                    모집 #{++recruitIndex} {
+                    eachItem.recruitTitle === null ?
+                      (`[${data.projectTitle}] - ${eachItem.crewRoleName} 모집`)
+                      :
+                      eachItem.recruitTitle
+                  }
+                  </Typography>
+                  <ProjectDetailCrew
+                    crewCount={eachItem.crewCount}
+                    crewRoleName={eachItem.crewRoleName}
+                    startDate={eachItem.startDate}
+                    endDate={eachItem.endDate}
+                    recruitEndDate={eachItem.recruitEndDate}
+                    recruitDescription={eachItem.recruitDescription}
+                  />
+                </div>
+              ))}
           </>
         }
         <Box sx={{height: '100px'}}/>

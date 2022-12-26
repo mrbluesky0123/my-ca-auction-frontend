@@ -11,10 +11,11 @@ export default function callApi({ url,
                                 }, config) {
   let api_url = '';
   if(url.startsWith('http')) {
+    console.log("!!!!!!!! ", url);
     api_url = url;
-  } else {;
+  } else {
+    console.log("!!!!!!!!2222 ", url);
     api_url = BASE_URL + url;
-    console.log("!@!@!@ ", api_url);
   }
   return axios({
     method: method,
@@ -30,10 +31,7 @@ export default function callApi({ url,
     },
   })
     .then((response) => {
-      return {
-        isSuccess: true,
-        data: response
-      };
+      return response;
     })
     .catch((error) => {
       if(error.response === undefined) {
@@ -44,7 +42,7 @@ export default function callApi({ url,
       }
       return {
         isSuccess: false,
-        data: error,
+        data: undefined,
         responseCode: error.response.responseCode,
         responseMessage: error.response.responseMessage
       }
