@@ -10,8 +10,8 @@ function App() {
     <GlobalContext>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/main/*" element={<Main />} />
+          <Route path="/" element={<Login/>}/>
+          <Route path="/main/*" element={<Main/>}/>
         </Routes>
       </BrowserRouter>
     </GlobalContext>

@@ -1,10 +1,11 @@
 import * as React from 'react';
-import {useEffect, useRef, useState} from 'react';
+import {useContext, useEffect, useRef, useState} from 'react';
 import ProjectCard from "./ProjectCard";
 import {Box} from "@mui/material";
 import ProjectDetail from "../projectdetail/ProjectDetail";
 import {useNavigate} from "react-router-dom";
 import callApi from "../../../common/callApi";
+import {GlobalCommonContext} from "../../../common/GlobalContext";
 
 
 const Projects = ({projectId}) => {
@@ -14,7 +15,7 @@ const Projects = ({projectId}) => {
   const [projects, setProjects] = useState([]);
   const focusedProjectRef = useRef([]);
   const divRef = useRef();
-  // const focusedProjectRef2 = useRef();
+  const [userId, setUserId] = useState(null);
 
 
   useEffect(() => {
@@ -22,6 +23,11 @@ const Projects = ({projectId}) => {
       setCurrentIndex(parseInt(projectId));
       setSelectedProjectID(parseInt(projectId));
     }
+    let data = callApi({
+      url: '/v1/projects',
+      method: "get",
+    })
+    setUserId(localStorage.getItem("userId"));
   }, [])
 
   const cardSelectHandler = (id) => {
@@ -40,7 +46,7 @@ const Projects = ({projectId}) => {
       url: '/v1/projects',
       method: 'get',
     })
-    if(response.isSuccess) {
+    if(response.success) {
       console.log("###### ", response);
       setProjects([...projects, response.data.result])
     }
@@ -54,7 +60,6 @@ const Projects = ({projectId}) => {
       }
       )
     }
-    getProjectBriefInfo();
   }, [currentIndex])
 
   return (
@@ -92,7 +97,7 @@ const Projects = ({projectId}) => {
 
           <div className={'h-[284px] '}>
             <ProjectCard
-              isMyProject={false}
+              isMyProject={userId === "radi.yang"}
               isSelected={selectedProjectID === 1 ? true : false}
               id={1}
               title={"GAIA 고도화 프로젝트"}
@@ -109,7 +114,7 @@ const Projects = ({projectId}) => {
           </div>
           <div className={'h-[284px]'}>
             <ProjectCard
-              isMyProject={true}
+              isMyProject={userId === "keedi.kim"}
               isSelected={selectedProjectID === 2 ? true : false}
               id={2}
               title={"공공마이데이터 시스템 구축"}
@@ -127,11 +132,11 @@ const Projects = ({projectId}) => {
           </div>
           <div className={'h-[284px]'}>
             <ProjectCard
-              isMyProject={false}
+              isMyProject={userId === "randy.kang"}
               isSelected={selectedProjectID === 3 ? true : false}
               id={3}
               title={"OSLO 2.0 프로젝트"}
-              writer={"rami.c"}
+              writer={"randy.kang"}
               status={"inProgress"}
               regDate={"2022/12/10"}
               content={"홈화면 전계좌를 조회하는 오슬로의 차세대 프로젝트 멤버를 모십니다."}
@@ -145,7 +150,7 @@ const Projects = ({projectId}) => {
           </div>
           <div className={'h-[284px]'}>
             <ProjectCard
-              isMyProject={false}
+              isMyProject={userId === "randy.kang"}
               isSelected={selectedProjectID === 4 ? true : false}
               id={4}
               title={"동의정보 migration 프로젝트"}
@@ -163,7 +168,7 @@ const Projects = ({projectId}) => {
           </div>
           <div className={'h-[284px]'}>
             <ProjectCard
-              isMyProject={false}
+              isMyProject={userId === "rinto.ri"}
               isSelected={selectedProjectID === 5 ? true : false}
               id={5}
               title={"Athena 인수인계"}
@@ -181,7 +186,7 @@ const Projects = ({projectId}) => {
           </div>
           <div className={'h-[284px]'}>
             <ProjectCard
-              isMyProject={true}
+              isMyProject={userId === "hanson.pl"}
               isSelected={selectedProjectID === 6 ? true : false}
               id={6}
               title={"고객인증캠프의 새로운 먹거리를 찾아서"}
@@ -199,7 +204,7 @@ const Projects = ({projectId}) => {
           </div>
           <div className={'h-[284px]'}>
             <ProjectCard
-              isMyProject={false}
+              isMyProject={userId === "ray.nk"}
               isSelected={selectedProjectID === 7 ? true : false}
               id={7}
               title={"공공마이데이터 admin 화면 구축"}
@@ -213,114 +218,6 @@ const Projects = ({projectId}) => {
               }]}
               cardSelectHandler={() => cardSelectHandler(7)}
               ref={el => (focusedProjectRef.current[7] = el)}
-            />
-          </div>
-          <div className={'h-[284px]'}>
-            <ProjectCard
-              isMyProject={false}
-              isSelected={selectedProjectID === 8 ? true : false}
-              id={8}
-              title={"공공마이데이터 admin 화면 구축"}
-              writer={"ray.nk"}
-              status={"inProgress"}
-              regDate={"2022/12/10"}
-              content={"공공마이데이터의 admin 화면 구축을 위한 프로젝트입니다."}
-              positionList={[{name: 'backend', vacancy: 2}, {
-                name: 'frontend',
-                vacancy: 1
-              }]}
-              cardSelectHandler={() => cardSelectHandler(8)}
-              ref={el => (focusedProjectRef.current[8] = el)}
-            />
-          </div>
-          <div className={'h-[284px]'}>
-            <ProjectCard
-              isMyProject={false}
-              isSelected={selectedProjectID === 9 ? true : false}
-              id={9}
-              title={"공공마이데이터 admin 화면 구축"}
-              writer={"ray.nk"}
-              status={"inProgress"}
-              regDate={"2022/12/10"}
-              content={"공공마이데이터의 admin 화면 구축을 위한 프로젝트입니다."}
-              positionList={[{name: 'backend', vacancy: 2}, {
-                name: 'frontend',
-                vacancy: 1
-              }]}
-              cardSelectHandler={() => cardSelectHandler(9)}
-              ref={el => (focusedProjectRef.current[9] = el)}
-            />
-          </div>
-          <div className={'h-[284px]'}>
-            <ProjectCard
-              isMyProject={false}
-              isSelected={selectedProjectID === 10 ? true : false}
-              id={10}
-              title={"공공마이데이터 admin 화면 구축"}
-              writer={"ray.nk"}
-              status={"inProgress"}
-              regDate={"2022/12/10"}
-              content={"공공마이데이터의 admin 화면 구축을 위한 프로젝트입니다."}
-              positionList={[{name: 'backend', vacancy: 2}, {
-                name: 'frontend',
-                vacancy: 1
-              }]}
-              cardSelectHandler={() => cardSelectHandler(10)}
-              ref={el => (focusedProjectRef.current[10] = el)}
-            />
-          </div>
-          <div className={'h-[284px]'}>
-            <ProjectCard
-              isMyProject={false}
-              isSelected={selectedProjectID === 11 ? true : false}
-              id={11}
-              title={"공공마이데이터 admin 화면 구축"}
-              writer={"ray.nk"}
-              status={"inProgress"}
-              regDate={"2022/12/10"}
-              content={"공공마이데이터의 admin 화면 구축을 위한 프로젝트입니다."}
-              positionList={[{name: 'backend', vacancy: 2}, {
-                name: 'frontend',
-                vacancy: 1
-              }]}
-              cardSelectHandler={() => cardSelectHandler(11)}
-              ref={el => (focusedProjectRef.current[11] = el)}
-            />
-          </div>
-          <div className={'h-[284px]'}>
-            <ProjectCard
-              isMyProject={false}
-              isSelected={selectedProjectID === 12 ? true : false}
-              id={12}
-              title={"공공마이데이터 admin 화면 구축"}
-              writer={"ray.nk"}
-              status={"inProgress"}
-              regDate={"2022/12/10"}
-              content={"공공마이데이터의 admin 화면 구축을 위한 프로젝트입니다."}
-              positionList={[{name: 'backend', vacancy: 2}, {
-                name: 'frontend',
-                vacancy: 1
-              }]}
-              cardSelectHandler={() => cardSelectHandler(12)}
-              ref={el => (focusedProjectRef.current[13] = el)}
-            />
-          </div>
-          <div className={'h-[284px]'}>
-            <ProjectCard
-              isMyProject={false}
-              isSelected={selectedProjectID === 13 ? true : false}
-              id={13}
-              title={"공공마이데이터 admin 화면 구축"}
-              writer={"ray.nk"}
-              status={"inProgress"}
-              regDate={"2022/12/10"}
-              content={"공공마이데이터의 admin 화면 구축11을 위한 프로젝트입니다."}
-              positionList={[{name: 'backend', vacancy: 2}, {
-                name: 'frontend',
-                vacancy: 1
-              }]}
-              cardSelectHandler={() => cardSelectHandler(13)}
-              ref={el => (focusedProjectRef.current[14] = el)}
             />
           </div>
 

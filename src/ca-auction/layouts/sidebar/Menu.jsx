@@ -14,22 +14,26 @@ import ComputerIcon from '@mui/icons-material/Computer';
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 import PersonIcon from '@mui/icons-material/Person';
 
-const drawerWidth = 250;
+const drawerWidth = 230;
 const Menu = ({drawerOpen, drawerToggle, window}) => {
   const theme = useTheme();
 
   const MenuButton = styled((props) => (
     <Button alignLeft elevation={3} color={'inherit'}  {...props} />
   ))(({theme}) => ({
-    paddingLeft: '20px',
-    fontSize: '1.1rem',
+    paddingLeft: '1rem',
+    fontSize: '1.0rem',
     fontWeight: 'bold',
     border: `0px solid`,
+    borderRadius: 5,
     width: '200px',
     height: '40px',
     justifyContent: "flex-start",
     '&.MuiButton-root': {
-
+      '&:hover': {
+        backgroundColor: theme.palette.primary[800],
+        color: 'white'
+      },
     }
   }));
   const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));

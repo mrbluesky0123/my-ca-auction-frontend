@@ -142,28 +142,60 @@ const NumberOfApplicants = (props) => {
                             }
                             }/>}
                             label={<Typography
-                              sx={{fontSize: 14, color: buttonBackgroundColor("")}}>전체</Typography>}/>
+                              sx={{
+                                fontSize: 14,
+                                borderWidth: 1,
+                                borderColor: buttonBackgroundColor(""),
+                                borderRadius: 1,
+                                paddingY: 0.25,
+                                paddingX: 2,
+                                color: buttonBackgroundColor("")
+                              }}>전체</Typography>}/>
           <FormControlLabel value="02"
                             control={<Radio size={"small"} onChange={(e) => {
                               setRadioSelected(e.target.value);
                             }
                             }/>}
                             label={<Typography
-                              sx={{fontSize: 14, color: buttonBackgroundColor("02")}}>미결정</Typography>}/>
+                              sx={{
+                                fontSize: 14,
+                                borderWidth: 1,
+                                borderColor: buttonBackgroundColor("02"),
+                                borderRadius: 1,
+                                paddingY: 0.25,
+                                paddingX: 1,
+                                color: buttonBackgroundColor("02")
+                              }}>미결정</Typography>}/>
           <FormControlLabel value="00"
                             control={<Radio size={"small"} onChange={(e) => {
                               setRadioSelected(e.target.value);
                             }
                             }/>}
                             label={<Typography
-                              sx={{fontSize: 14, color: buttonBackgroundColor("00")}}>수락</Typography>}/>
+                              sx={{
+                                fontSize: 14,
+                                borderWidth: 1,
+                                borderColor: buttonBackgroundColor("00"),
+                                borderRadius: 1,
+                                paddingY: 0.25,
+                                paddingX: 2,
+                                color: buttonBackgroundColor("00")
+                              }}>수락</Typography>}/>
           <FormControlLabel value="01"
                             control={<Radio size={"small"} onChange={(e) => {
                               setRadioSelected(e.target.value);
                             }
                             }/>}
                             label={<Typography
-                              sx={{fontSize: 14, color: buttonBackgroundColor("01")}}>거절</Typography>}/>
+                              sx={{
+                                fontSize: 14,
+                                borderWidth: 1,
+                                borderColor: buttonBackgroundColor("01"),
+                                borderRadius: 1,
+                                paddingY: 0.25,
+                                paddingX: 2,
+                                color: buttonBackgroundColor("01")
+                              }}>거절</Typography>}/>
         </RadioGroup>
       </FormLabel>
 

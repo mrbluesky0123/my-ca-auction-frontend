@@ -1,19 +1,21 @@
 import React, {useContext, useEffect, useRef, useState} from "react";
-import {Box, Button, Container, Divider, Grid, Stack, Typography} from "@mui/material";
+import {Box, Button, Divider, Grid, Stack, Typography} from "@mui/material";
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import StartIcon from '@mui/icons-material/Start';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 import ProjectDetailCrew from "./ProjectDetailCrew";
 import {GlobalCommonContext} from "../../../common/GlobalContext";
-import ComputerIcon from "@mui/icons-material/Computer";
 import SettingsIcon from '@mui/icons-material/Settings';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {useTheme} from "@mui/material/styles";
+import {useNavigate} from "react-router-dom";
+
 
 const data = {
   projectId: 2361,
   projectTitle: '공공마이데이터 시스템 구축',
-  projectLeader: 'keedi.kim',
+  projectLeader: 'randy.kang',
   projectStartDate: '2022-12-01',
   projectEndDate: '2022-12-31',
   projectCrewStatus: '모집 중',
@@ -52,12 +54,17 @@ const data = {
   ]
 }
 
+const titleColumnSpace = 2;
+const descriptionColumnSpace = 12 - titleColumnSpace;
+
 const ProjectDetail = ({selectedProjectId}) => {
   const theme = useTheme();
   const projectInfoReference = useRef();
   const [projectInfoHeight, setProjectInfoHeight] = useState(0)
   const [wholeDivHeight, setWholeDivHeight] = useState(0)
   const {userId} = useContext(GlobalCommonContext);
+  const navigate = useNavigate();
+
 
   let recruitIndex = 0;
 
@@ -69,9 +76,70 @@ const ProjectDetail = ({selectedProjectId}) => {
   return (
     <div className={'h-[calc(100vh-50px)]'}>
       <Box ref={projectInfoReference}>
-        <Typography sx={{fontSize: '18px', color: 'text.secondary'}} mb={1}>
-          프로젝트# {selectedProjectId}
+        <Typography sx={{fontSize: '1rem', color: 'text.secondary'}} mb={1}>
+          프로젝트 #{selectedProjectId}
         </Typography>
+        {
+          data.projectLeader === localStorage.getItem("userId") ?
+            <div className={'mb-2'}>
+              <Button
+                variant="outlined"
+                sx={{
+                  paddingY: '0.2rem',
+                  paddingX: '1rem',
+                  fontSize: '1rem',
+                  fontWeight: 'bold',
+                  // border: `1px solid`,
+                  // width: '10rem',
+                  height: '2rem',
+                  justifyContent: "flex-start",
+                  mb: '0.3rem',
+                  mr: '0.5rem',
+                  boxShadow: 0,
+                  '&.MuiButton-root': {
+                    border: "1px solid #1a237e",
+                    color: '#1a237e',
+                    elevation: 0,
+                    variant: "outlined"
+                  },
+                  "&:hover": {
+                    backgroundColor: "#1a237e",
+                    color: 'white',
+                    elevation: 0
+                  }
+                }}
+                onClick={() => {
+                  navigate('/main/projectcrew');
+                }}
+                startIcon={<SettingsIcon className={'mr-[0.25rem]'}/>}>수정</Button>
+              <Button
+                variant="outlined"
+                sx={{
+                  paddingY: '0.2rem',
+                  paddingX: '1rem',
+                  fontSize: '1rem',
+                  fontWeight: 'bold',
+                  // border: `1px solid`,
+                  // width: '10rem',
+                  height: '2rem',
+                  justifyContent: "flex-start",
+                  mb: '0.3rem',
+                  boxShadow: 0,
+                  '&.MuiButton-root': {
+                    border: "1px solid #1a237e",
+                    color: '#1a237e',
+                    elevation: 0,
+                    variant: "outlined"
+                  },
+                  "&:hover": {
+                    backgroundColor: "#1a237e",
+                    color: 'white',
+                    elevation: 0
+                  }
+                }}
+                startIcon={<DeleteIcon className={'mr-[0.25rem]'}/>}>삭제</Button>
+            </div> : null
+        }
         <Stack direction={"row"}>
           <Typography sx={{
             mb: data.projectLeader === userId ? 0 : 3
@@ -79,89 +147,64 @@ const ProjectDetail = ({selectedProjectId}) => {
             {data.projectTitle} ({selectedProjectId})
           </Typography>
         </Stack>
-        {
-          data.projectLeader === userId ?
-            <Button
-              variant="contained"
-              sx={{
-                paddingY: '0.2rem',
-                paddingX: '1rem',
-                fontSize: '1rem',
-                fontWeight: 'bold',
-                // border: `1px solid`,
-                // width: '10rem',
-                height: '2rem',
-                justifyContent: "flex-start",
-                mt: '0.5rem',
-                mb: '0.7rem',
-                boxShadow: 0,
-                backgroundColor: theme.palette.primary[900],
-                '&.MuiButton-root': {
-                  '&:hover': {
-                    boxShadow: 0
-                  },
-                }
-              }}
-              startIcon={<SettingsIcon className={'mr-[0.25rem]'}/>}>수정</Button> : null
-        }
-        <Grid container spacing={1}>
-          <Grid item xs={3}>
+        <Grid container sx={{maxWidth: '85rem'}} gridTemplateColumns="5rem 5rem repeat(10, 1fr)" spacing={1}>
+          <Grid item xs={titleColumnSpace}>
             <Typography
               sx={{
-                fontSize: '18px'
+                fontSize: '1.2rem'
               }}>
               <SupervisorAccountIcon sx={{marginRight: 1}}/> 프로젝트 리더
             </Typography>
           </Grid>
-          <Grid item xs={9}>
+          <Grid item xs={descriptionColumnSpace}>
             <Typography
               sx={{
-                fontSize: '18px'
+                fontSize: '1.2rem'
               }}>
               {data.projectLeader}
             </Typography>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={titleColumnSpace}>
             <Typography
               sx={{
-                fontSize: '18px'
+                fontSize: '1.2rem'
               }}>
               <StartIcon sx={{marginRight: 1}}/> 프로젝트 시작일자
             </Typography>
           </Grid>
-          <Grid item xs={9}>
+          <Grid item xs={descriptionColumnSpace}>
             <Typography
               sx={{
-                fontSize: '18px'
+                fontSize: '1.2rem'
               }}>
               {data.projectStartDate}
             </Typography>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={titleColumnSpace}>
             <Typography
               sx={{
-                fontSize: '18px'
+                fontSize: '1.2rem'
               }}>
               <EventAvailableIcon sx={{marginRight: 1}}/> 프로젝트 종료일자
             </Typography>
           </Grid>
-          <Grid item xs={9}>
+          <Grid item xs={descriptionColumnSpace}>
             <Typography
               sx={{
-                fontSize: '18px'
+                fontSize: '1.2rem'
               }}>
               {data.projectEndDate}
             </Typography>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={titleColumnSpace}>
             <Typography
               sx={{
-                fontSize: '18px'
+                fontSize: '1.2rem'
               }}>
               <DescriptionOutlinedIcon sx={{marginRight: 1}}/> 프로젝트 설명
             </Typography>
           </Grid>
-          <Grid item xs={9}>
+          <Grid item xs={descriptionColumnSpace}>
             <Box fixed
                  sx={{
                    // maxHeight: (wholeDivHeight - projectInfoHeight > 300 ? wholeDivHeight - projectInfoHeight : 600),
@@ -174,7 +217,7 @@ const ProjectDetail = ({selectedProjectId}) => {
                  }}>
               <Typography>
                     <pre className={'whitespace-pre-line'}
-                         style={{fontFamily: 'inherit', fontSize: '18px'}}>
+                         style={{fontFamily: 'inherit', fontSize: '1.2rem'}}>
                       {data.projectDescription}
                     </pre>
               </Typography>
@@ -183,32 +226,34 @@ const ProjectDetail = ({selectedProjectId}) => {
         </Grid>
       </Box>
       <Divider sx={{marginY: 3}}/>
-      <Container fixed
-                 sx={{
-                   maxHeight: (wholeDivHeight - projectInfoHeight > 300 ? wholeDivHeight - projectInfoHeight - 48 : 600),
-                   overflowY: "scroll",
-                   "&.MuiContainer-root": {
-                     paddingLeft: 0,
-                     paddingRight: 20,
-                     marginX: 0
-                   }
-                 }}>
+      <Box fixed
+           sx={{
+             maxHeight: (wholeDivHeight - projectInfoHeight > 300 ? wholeDivHeight - projectInfoHeight - 48 : 600),
+             overflowY: "scroll",
+             "&.MuiContainer-root": {
+               paddingLeft: 0,
+               paddingRight: 20,
+               marginX: 0
+             }
+           }}>
         {
           <>
             {data.projectRecruit.map((eachItem) =>
               (
                 <div>
-                  <Typography
-                    variant={'h6'}
-                    sx={{marginBottom: 1, fontWeight: 'bold'}}
-                  >
-                    모집 #{++recruitIndex} {
-                    eachItem.recruitTitle === null ?
-                      (`[${data.projectTitle}] - ${eachItem.crewRoleName} 모집`)
-                      :
-                      eachItem.recruitTitle
-                  }
-                  </Typography>
+                  <Stack direction={"row"}>
+                    <Typography
+                      variant={'h6'}
+                      sx={{mb: 1, mr: 2, fontWeight: 'bold',}}
+                    >
+                      모집 #{++recruitIndex} {
+                      eachItem.recruitTitle === null ?
+                        (`[${data.projectTitle}] - ${eachItem.crewRoleName} 모집`)
+                        :
+                        eachItem.recruitTitle
+                    }
+                    </Typography>
+                  </Stack>
                   <ProjectDetailCrew
                     crewCount={eachItem.crewCount}
                     crewRoleName={eachItem.crewRoleName}
@@ -222,7 +267,7 @@ const ProjectDetail = ({selectedProjectId}) => {
           </>
         }
         <Box sx={{height: '100px'}}/>
-      </Container>
+      </Box>
     </div>
   )
 

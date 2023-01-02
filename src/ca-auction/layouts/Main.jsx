@@ -115,7 +115,8 @@ const Home = () => {
             <Routes>
               <Route exact path="/project/:projectId" element={<HomeBody/>}/>
               <Route path="/project/*" element={<HomeBody/>}/>
-              <Route path="/projectcrew" element={<ProjectCrew/>}/>
+              <Route exact path="/projectcrew/:projectId" element={<ProjectCrew/>}/>
+              <Route path="/projectcrew/*" element={<ProjectCrew/>}/>
               <Route path="/newproject" element={<MyProject/>}/>
               <Route path="/my-project" element={<MyProject/>}/>
             </Routes>
